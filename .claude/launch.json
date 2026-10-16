@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "5173", "--strictPort"],
+      "port": 5173
+    },
+    {
+      "name": "s0-reference",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5181", "--bind", "127.0.0.1", "--directory", "C:/Users/SHASHI~1/AppData/Local/Temp/claude/C--Work-Projects-Myself/a7bf2ce7-706e-488e-b4b1-bd1158637181/scratchpad/s0ref"],
+      "port": 5181
+    }
+  ]
+}

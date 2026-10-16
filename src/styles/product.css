@@ -1,0 +1,436 @@
+/* ==================================================================
+   Product pages in the site's own language: white, framed, quiet.
+   Built on the case-study classes (case-hero, band, rows, next);
+   these rules add only what a product page needs on top.
+   ================================================================== */
+
+.product-page {
+  --sc-ink: var(--black);
+  --sc-mut: var(--text-2);
+  --sc-acc: var(--accent);
+  --sc-bg: var(--white);
+  --sc-line: var(--line);
+}
+
+/* ---------- Pills ---------- */
+
+.pill--solid {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+.pill--solid:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.pill--light {
+  border-color: var(--white);
+  background: var(--white);
+  color: var(--black);
+}
+
+.pill--light:hover {
+  background: transparent;
+  color: var(--white);
+}
+
+.pill svg {
+  flex: none;
+}
+
+/* ---------- Cover ---------- */
+
+.pp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pp-film-btn {
+  cursor: pointer;
+}
+
+.pp-film-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---------- The film, over the page ---------- */
+
+.pp-film {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 5vw, 72px);
+  background: rgb(0 0 0 / 90%);
+  color: var(--white);
+  animation: pp-fade 0.35s var(--ease);
+}
+
+.pp-film__box {
+  width: min(1240px, 100%);
+}
+
+.pp-film__x {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--white);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pp-film__x:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+@keyframes pp-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- Section heads ---------- */
+
+.pp-head {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pp-head--left {
+  margin: 0;
+  text-align: left;
+}
+
+.pp-kicker {
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.pp-h2 {
+  margin-top: 14px;
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+/* ---------- How it works ---------- */
+
+.pp-how {
+  padding: clamp(84px, 11vw, 150px) var(--pad) clamp(40px, 6vw, 80px);
+  border-bottom: 1px solid var(--line);
+}
+
+.product-page .scrolly__k {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--red);
+}
+
+.product-page .scrolly__step h3 {
+  font-family: var(--serif);
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.product-page .scrolly__step p {
+  font-family: var(--sans);
+}
+
+/* ---------- Get started ---------- */
+
+.pp-setup {
+  padding: clamp(84px, 11vw, 150px) var(--pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.pp-setup__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1240px;
+  margin: clamp(40px, 6vh, 64px) auto 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--black);
+}
+
+.pp-setup__list li {
+  padding: 28px clamp(16px, 2.4vw, 36px) 8px 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: calc(var(--k) * 0.12s);
+}
+
+.pp-setup__list li + li {
+  padding-left: clamp(16px, 2.4vw, 36px);
+  border-left: 1px solid var(--line);
+}
+
+.pp-setup.is-seen .pp-setup__list li {
+  opacity: 1;
+  transform: none;
+}
+
+.pp-setup__n {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(3.2rem, 6vw, 5.4rem);
+  line-height: 0.9;
+  color: var(--accent);
+}
+
+.pp-setup__list h3 {
+  margin-top: 18px;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.pp-setup__list p {
+  margin-top: 10px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+@media (max-width: 760px) {
+  .pp-setup__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pp-setup__list li,
+  .pp-setup__list li + li {
+    padding: 24px 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+/* ---------- Straight answers ---------- */
+
+.pp-faq {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(84px, 11vw, 150px) var(--pad);
+}
+
+.pp-faq__list {
+  margin-top: clamp(28px, 4vh, 44px);
+  border-top: 1px solid var(--black);
+}
+
+.pp-faq__item {
+  border-bottom: 1px solid var(--line);
+}
+
+.pp-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 0;
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.9vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.pp-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.pp-faq__item summary::after {
+  content: '+';
+  flex: none;
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 300;
+  transition: transform 0.4s var(--ease);
+}
+
+.pp-faq__item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.pp-faq__item p {
+  max-width: 62ch;
+  padding: 0 0 28px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+/* ---------- The one call to action ---------- */
+
+.pp-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: clamp(96px, 16vh, 180px) var(--pad);
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+}
+
+.pp-cta__title {
+  font-family: var(--display);
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 400;
+  line-height: 0.88;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 1s var(--ease);
+}
+
+.pp-cta__line {
+  max-width: 46ch;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.6;
+  color: #b9b9b9;
+}
+
+.pp-cta.is-seen .pp-cta__title {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- A row's picture: the loop of manual steps ---------- */
+
+.pp-loop {
+  position: relative;
+  width: min(100%, 440px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+.pp-loop svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.pp-loop circle {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 0.5;
+}
+
+.pp-loop .pp-loop__arc {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 30 222;
+  animation: pp-loop 6s linear infinite;
+}
+
+@keyframes pp-loop {
+  to {
+    stroke-dashoffset: -251;
+  }
+}
+
+.pp-loop__node {
+  position: absolute;
+  width: max-content;
+  max-width: 150px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+}
+
+.pp-loop__node.is-you {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+.pp-loop__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transform: translate(-50%, -50%);
+}
+
+.pp-loop__core b {
+  font-family: var(--display);
+  font-size: clamp(3rem, 6vw, 4.6rem);
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--black);
+}
+
+@media (max-width: 760px) {
+  .pp-loop__node {
+    width: 84px;
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .pp-faq__item summary {
+    padding: 20px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-loop .pp-loop__arc,
+  .pp-film {
+    animation: none;
+  }
+
+  .pp-cta__title,
+  .pp-setup__list li {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
