@@ -1,0 +1,241 @@
+/* ==================================================================
+   Shared by the three product pages. Colours come from the page:
+   --sc-ink, --sc-mut, --sc-acc, --sc-bg, --sc-line.
+   ================================================================== */
+
+/* ---------- The product, live, in the hero ---------- */
+
+.show-hero {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  aspect-ratio: 880 / 560;
+  margin: clamp(40px, 6vh, 64px) auto 0;
+}
+
+@media (max-width: 700px) {
+  .show-hero {
+    aspect-ratio: 274 / 560;
+    max-width: 320px;
+  }
+}
+
+/* ---------- How it works, told by scrolling ---------- */
+
+.scrolly {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  gap: clamp(28px, 4vw, 72px);
+  max-width: 1320px;
+  margin: clamp(32px, 5vh, 56px) auto 0;
+}
+
+.scrolly__stage {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: calc(100svh - var(--header-h) - 40px);
+  max-height: 760px;
+}
+
+.scrolly__box {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.scrolly__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scrolly__dots li {
+  width: 26px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--sc-line);
+  transition:
+    background 0.4s,
+    width 0.4s;
+}
+
+.scrolly__dots li.is-done {
+  background: color-mix(in srgb, var(--sc-acc) 45%, transparent);
+}
+
+.scrolly__dots li.is-on {
+  width: 46px;
+  background: var(--sc-acc);
+}
+
+.scrolly__steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrolly__step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  min-height: 78svh;
+  opacity: 0.28;
+  transition: opacity 0.5s;
+}
+
+.scrolly__step:first-child {
+  min-height: 60svh;
+}
+
+.scrolly__step:last-child {
+  min-height: 92svh;
+  justify-content: flex-start;
+  padding-top: 30svh;
+}
+
+.scrolly__step.is-on {
+  opacity: 1;
+}
+
+.scrolly__k {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sc-acc);
+}
+
+.scrolly__step h3 {
+  margin: 0;
+  font-size: clamp(28px, 2.9vw, 44px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--sc-ink);
+  text-wrap: balance;
+}
+
+.scrolly__step p {
+  max-width: 30em;
+  margin: 0;
+  font-size: clamp(16px, 1.25vw, 18.5px);
+  line-height: 1.65;
+  color: var(--sc-mut);
+}
+
+@media (max-width: 900px) {
+  .scrolly {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  /* The product pins above the text, which scrolls up beneath it. */
+  .scrolly__stage {
+    z-index: 3;
+    top: var(--header-h);
+    height: 52svh;
+    max-height: none;
+    padding: 12px 0;
+    background: var(--sc-bg);
+    box-shadow: 0 18px 24px -14px var(--sc-bg);
+  }
+
+  .scrolly__step,
+  .scrolly__step:first-child {
+    min-height: 62svh;
+    justify-content: flex-start;
+    padding-top: 6svh;
+  }
+
+  .scrolly__step:last-child {
+    min-height: 70svh;
+    padding-top: 6svh;
+  }
+}
+
+/* ---------- Where to look, on the product ---------- */
+
+.sc-focus {
+  position: absolute;
+  z-index: 20;
+  border: 2.5px solid var(--sc-acc);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--sc-acc) 18%, transparent),
+    0 10px 30px -10px color-mix(in srgb, var(--sc-acc) 60%, transparent);
+  pointer-events: none;
+  animation:
+    sc-focus-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both,
+    sc-focus-pulse 2.4s ease-in-out 1s infinite;
+}
+
+.sc-focus b {
+  position: absolute;
+  left: -2px;
+  bottom: calc(100% + 10px);
+  padding: 7px 12px 6px;
+  background: var(--sc-ink);
+  font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--sc-bg);
+}
+
+.sc-focus--below b {
+  top: calc(100% + 10px);
+  bottom: auto;
+}
+
+.sc-focus--end b {
+  left: auto;
+  right: -2px;
+}
+
+/* Cropped to the phone: boxes drawn on the laptop would only show as a sliver. */
+.stage__inner--crop .sc-focus[data-out] {
+  display: none;
+}
+
+@keyframes sc-focus-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes sc-focus-pulse {
+  50% {
+    box-shadow:
+      0 0 0 12px color-mix(in srgb, var(--sc-acc) 8%, transparent),
+      0 10px 30px -10px color-mix(in srgb, var(--sc-acc) 60%, transparent);
+  }
+}
+
+/* ---------- The film, as one section among many ---------- */
+
+.film-sec {
+  max-width: 1180px;
+  margin: clamp(32px, 5vh, 56px) auto 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolly__step,
+  .scrolly__dots li {
+    transition: none;
+  }
+
+  .sc-focus {
+    animation: none;
+  }
+}

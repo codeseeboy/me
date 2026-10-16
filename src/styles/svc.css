@@ -1,0 +1,459 @@
+/* Shared by both service pages: the one call to action, and its quiet partner. */
+
+.svc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  padding: 0 26px;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+
+.svc-cta svg {
+  transition: transform 0.45s var(--ease);
+}
+
+.svc-cta:hover {
+  transform: translateY(-2px);
+}
+
+.svc-cta:hover svg {
+  transform: translateX(4px);
+}
+
+.svc-cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.svc-cta--pg {
+  background: linear-gradient(180deg, #8d70ff, #6b4cf0);
+  color: #fff;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 12%) inset,
+    0 14px 40px -12px rgb(124 92 252 / 70%);
+}
+
+.svc-cta--pg:hover {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 18%) inset,
+    0 20px 50px -12px rgb(124 92 252 / 90%);
+}
+
+.svc-cta--med {
+  border-radius: 12px;
+  background: #22c55e;
+  color: #04120a;
+  box-shadow: 0 14px 40px -14px rgb(34 197 94 / 70%);
+}
+
+.svc-cta--med:hover {
+  box-shadow: 0 20px 50px -14px rgb(34 197 94 / 90%);
+}
+
+/* The label rolls up to reveal itself again on hover. */
+.svc-cta__roll {
+  position: relative;
+  display: inline-block;
+  height: 1.25em;
+  overflow: hidden;
+  line-height: 1.25em;
+}
+
+.svc-cta__roll span,
+.svc-cta__roll::after {
+  display: block;
+  transition: transform 0.5s var(--ease);
+}
+
+.svc-cta__roll::after {
+  content: attr(data-t);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.svc-cta:hover .svc-cta__roll span,
+.svc-cta:hover .svc-cta__roll::after {
+  transform: translateY(-100%);
+}
+
+.svc-cta:focus-visible,
+.svc-ghost:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.svc-ghost {
+  display: inline-flex;
+  align-items: center;
+  height: 54px;
+  padding: 0 24px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 99px;
+  color: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+.svc-ghost:hover {
+  border-color: rgb(255 255 255 / 55%);
+  background: rgb(255 255 255 / 4%);
+}
+
+.svc-ghost--med {
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  .svc-cta,
+  .svc-ghost {
+    height: 50px;
+    padding: 0 20px;
+    font-size: 14.5px;
+  }
+}
+
+/* ---------- /services: the doors ---------- */
+
+/* White frames, like the gallery's case panels: the product is the colour. */
+.svc-doors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  padding: 0 var(--gap) calc(var(--gap) * 3);
+}
+
+.svc-door {
+  --door-pad: clamp(26px, 3.4vw, 56px);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--door-pad);
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--black);
+  text-align: center;
+  transition: border-color 0.4s var(--ease);
+}
+
+.svc-door:hover {
+  border-color: var(--black);
+}
+
+.svc-door__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.svc-door__mark {
+  width: 28px;
+  height: 28px;
+}
+
+.svc-door__mark--med {
+  color: var(--black);
+}
+
+.svc-door__name {
+  margin-top: clamp(18px, 3vh, 28px);
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 4.2vw, 4.2rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.svc-door__line {
+  max-width: 34em;
+  margin-top: 14px;
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.svc-door__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: 24px;
+  padding: 0.66em 1.2em 0.56em;
+  border: 1.5px solid var(--black);
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+
+.svc-door:hover .svc-door__go {
+  background: var(--black);
+  color: var(--white);
+}
+
+.svc-door__go i {
+  font-style: normal;
+  transition: transform 0.45s var(--ease);
+}
+
+.svc-door:hover .svc-door__go i {
+  transform: translateX(4px);
+}
+
+.svc-door__film {
+  align-self: stretch;
+  margin-top: auto;
+  padding-top: clamp(32px, 5vh, 56px);
+}
+
+.svc-door__show {
+  position: relative;
+  aspect-ratio: 880 / 560;
+}
+
+.svc-door--live {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  text-align: left;
+}
+
+.svc-door__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.svc-door--live .svc-door__film {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+@media (max-width: 900px) {
+  .svc-doors,
+  .svc-door--live {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .svc-door--live {
+    text-align: center;
+  }
+
+  .svc-door--live .svc-door__copy {
+    align-items: center;
+  }
+}
+
+/* Phones: the product is shown cropped to its phone or chat, so the box turns portrait. */
+@media (max-width: 600px) {
+  .svc-door__show {
+    aspect-ratio: 4 / 5;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* ---------- Film player (both product pages) ---------- */
+
+.film {
+  --tint: #8b6bff;
+
+  position: relative;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.film__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: clamp(16px, 2vw, 28px);
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 10%),
+    0 60px 140px -50px rgb(0 0 0 / 90%),
+    0 0 120px -40px var(--tint);
+}
+
+.film:fullscreen .film__frame {
+  height: 100%;
+  border-radius: 0;
+}
+
+.film__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.film__play,
+.film__full {
+  position: absolute;
+  bottom: clamp(12px, 1.6vw, 22px);
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(10 10 16 / 62%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 18%) inset;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    transform 0.3s var(--ease),
+    opacity 0.3s;
+}
+
+.film__play {
+  left: clamp(12px, 1.6vw, 22px);
+}
+
+.film__full {
+  right: clamp(12px, 1.6vw, 22px);
+  opacity: 0;
+}
+
+.film__frame:hover .film__full,
+.film__full:focus-visible {
+  opacity: 1;
+}
+
+.film__play:hover,
+.film__full:hover {
+  transform: scale(1.08);
+}
+
+.film__play svg,
+.film__full svg {
+  width: 20px;
+  height: 20px;
+}
+
+.film__play:not(.is-playing) {
+  left: 50%;
+  bottom: 50%;
+  width: 84px;
+  height: 84px;
+  transform: translate(-50%, 50%);
+}
+
+.film__play:not(.is-playing) svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+}
+
+.film__play:not(.is-playing):hover {
+  transform: translate(-50%, 50%) scale(1.06);
+}
+
+.film__chapters {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.film__ch {
+  flex-basis: 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.film__bar {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 16%);
+}
+
+.film__bar i {
+  display: block;
+  height: 100%;
+  background: var(--tint);
+  transform-origin: 0 50%;
+}
+
+.film__label {
+  display: block;
+  margin-top: 10px;
+  overflow: hidden;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.55;
+  transition: opacity 0.3s;
+}
+
+.film__label b {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 500;
+  color: var(--tint);
+}
+
+.film__ch:hover .film__label,
+.film__ch.is-on .film__label {
+  opacity: 1;
+}
+
+.film__ch:focus-visible {
+  outline: 2px solid var(--tint);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 700px) {
+  .film__chapters {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .film__ch {
+    flex: 0 0 auto !important;
+    width: 128px;
+  }
+
+  .film__full {
+    opacity: 1;
+  }
+}

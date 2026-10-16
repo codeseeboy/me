@@ -1,0 +1,715 @@
+/* ==================================================================
+   States that only the product pages reach — Privacy Guardian's unlock,
+   Mediator's approval — and the Live Desktop mockup.
+   ================================================================== */
+
+/* ---- Privacy Guardian: the unlock half of the story ---- */
+
+.pgs__also {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.pgs__also i {
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: #ede9fe;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 600;
+  color: #5b21b6;
+}
+
+.pgs__row em.is-open {
+  background: rgb(74 222 128 / 18%);
+  color: #4ade80;
+}
+
+.pgs__toast--open {
+  background: #7c5cfc;
+}
+
+.pgs__beam--open {
+  background: linear-gradient(270deg, #4ade80, rgb(74 222 128 / 0%));
+  box-shadow: 0 0 12px #4ade80;
+}
+
+.pgs__sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 16px 22px;
+  border-radius: 24px 24px 0 0;
+  background: #1b1b26;
+  box-shadow: 0 -20px 40px rgb(0 0 0 / 50%);
+  text-align: center;
+  transform: translateY(105%);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pgs__sheet.is-on {
+  transform: none;
+}
+
+.pgs__sk {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a3a3bd;
+}
+
+.pgs__sheet strong {
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+
+.pgs__fp {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 4px 0;
+  border-radius: 50%;
+  background: rgb(124 92 252 / 18%);
+  box-shadow: 0 0 0 6px rgb(124 92 252 / 10%);
+}
+
+.pgs__fp svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: #c4b5fd;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.pgs__sheet small {
+  font-size: 11px;
+  color: #a3a3bd;
+}
+
+/* ---- Mediator: the approval ---- */
+
+.mds__phase.is-wait {
+  color: #fcd34d;
+}
+
+.mds__phase.is-wait i {
+  background: #f59e0b;
+  box-shadow: 0 0 0 4px rgb(245 158 11 / 22%);
+}
+
+.mds__ask {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgb(245 158 11 / 10%);
+  box-shadow: 0 0 0 1px rgb(245 158 11 / 45%) inset;
+  animation: mds-ask 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes mds-ask {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.mds__askh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mds__askh em {
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgb(245 158 11 / 22%);
+  font-size: 10px;
+  font-style: normal;
+  color: #fcd34d;
+}
+
+.mds__ask p {
+  font-size: 11.5px;
+  color: #c7d0dc;
+}
+
+.mds__ask code {
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: #07090d;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+}
+
+.mds__btns {
+  display: flex;
+  gap: 7px;
+}
+
+.mds__btns i {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.mds__btns .ok {
+  background: #22c55e;
+  color: #04120a;
+}
+
+.mds__btns .no {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ================================================================== */
+/* Live Desktop                                                        */
+/* ================================================================== */
+
+.lvs {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lvs__laptop {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  width: 620px;
+}
+
+.lvs__lid {
+  height: 400px;
+  padding: 12px 12px 14px;
+  border-radius: 16px 16px 4px 4px;
+  background: #16161d;
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 50%);
+}
+
+.lvs__base {
+  height: 14px;
+  margin: 0 -26px;
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(#d9d9e0, #b9b9c4);
+}
+
+.lvs__tag {
+  position: absolute;
+  left: 0;
+  top: -30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b6b76;
+}
+
+/* The desktop itself, drawn at 596 x 374 and shrunk into the mirror on the phone. */
+.lvs__desk {
+  position: relative;
+  width: 596px;
+  height: 374px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #2c3a64, #18203a);
+}
+
+.lvs__spot {
+  position: absolute;
+  right: 26px;
+  top: 30px;
+  width: 210px;
+  height: 230px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #121212;
+  color: #fff;
+  box-shadow: 0 20px 40px -12px rgb(0 0 0 / 60%);
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+}
+
+.lvs__spot.is-gone {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.lvs__spot span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1ed760;
+}
+
+.lvs__spot i {
+  display: block;
+  height: 54px;
+  margin-top: 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1db954, #116a32);
+}
+
+.lvs__spot i + i {
+  width: 70%;
+  height: 12px;
+  background: #2a2a2a;
+}
+
+.lvs__win {
+  position: absolute;
+  left: 22px;
+  top: 18px;
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 24px 40px -16px rgb(0 0 0 / 55%);
+}
+
+.lvs__wbar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
+  background: #ececf1;
+}
+
+.lvs__wbar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cfcfd6;
+}
+
+.lvs__wbar span {
+  margin-left: 8px;
+  font-size: 10.5px;
+  color: #6b6b76;
+}
+
+.lvs__form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 22px;
+  color: #17171f;
+}
+
+.lvs__form strong {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.lvs__form small {
+  font-size: 11px;
+  color: #b91c1c;
+}
+
+.lvs__label {
+  margin-top: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #55555f;
+}
+
+.lvs__field {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px #d4d4dc inset;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  transition: box-shadow 0.3s;
+}
+
+.lvs__field.is-focus {
+  box-shadow:
+    0 0 0 2px #2563eb inset,
+    0 0 0 4px rgb(37 99 235 / 18%);
+}
+
+.lvs__caret {
+  width: 1.5px;
+  height: 16px;
+  margin-left: 1px;
+  background: #2563eb;
+  animation: lvs-caret 1s steps(1) infinite;
+}
+
+@keyframes lvs-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lvs__submit {
+  align-self: flex-start;
+  margin-top: 14px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: #2563eb;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  transition: background 0.4s;
+}
+
+.lvs__submit.is-done {
+  background: #16a34a;
+}
+
+.lvs__task {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgb(10 12 20 / 80%);
+}
+
+.lvs__task i {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 20%);
+  transition: opacity 0.4s;
+}
+
+.lvs__task .is-chrome {
+  background: conic-gradient(#ea4335 0 33%, #fbbc05 0 66%, #34a853 0);
+}
+
+.lvs__task .is-spot {
+  background: #1db954;
+}
+
+.lvs__task .is-gone {
+  opacity: 0;
+}
+
+.lvs__phone {
+  position: absolute;
+  right: 6px;
+  top: 0;
+  width: 262px;
+  height: 548px;
+  padding: 9px;
+  border-radius: 40px;
+  background: #0e0e14;
+  box-shadow:
+    0 0 0 2px #2a2a33,
+    0 40px 70px -24px rgb(0 0 0 / 55%);
+}
+
+.lvs__ps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  overflow: hidden;
+  padding: 18px 12px 16px;
+  border-radius: 32px;
+  background: #0b0b12;
+  color: #f4f4fa;
+}
+
+.lvs__title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.lvs__title b {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 3px rgb(74 222 128 / 20%);
+}
+
+.lvs__acts {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.lvs__acts i {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: rgb(255 255 255 / 8%);
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+}
+
+.lvs__acts i.is-on {
+  background: rgb(124 92 252 / 45%);
+  box-shadow: 0 0 0 2px #7c5cfc;
+}
+
+/* The laptop's real screen. Whole at first; then zoomed in on the form, as a pinch does. */
+.lvs__mirror {
+  position: relative;
+  height: 206px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #18203a;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%);
+}
+
+.lvs__mz {
+  width: 596px;
+  height: 374px;
+  transform: translate(0, 34px) scale(0.369);
+  transform-origin: 0 0;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lvs__mz.is-zoom {
+  transform: translate(-10px, -8px) scale(0.55);
+}
+
+.lvs__pinch {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  padding: 4px 9px;
+  border-radius: 99px;
+  background: rgb(0 0 0 / 60%);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #fff;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+}
+
+.lvs__pinch.is-on {
+  opacity: 1;
+}
+
+.lvs__tap {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 40%);
+  box-shadow: 0 0 0 2px #fff inset;
+  opacity: 0;
+  transition:
+    opacity 0.25s,
+    left 0.5s,
+    top 0.5s;
+}
+
+.lvs__tap.is-field {
+  left: 112px;
+  top: 80px;
+  opacity: 1;
+}
+
+.lvs__tap.is-submit {
+  left: 53px;
+  top: 110px;
+  opacity: 1;
+}
+
+.lvs__keys {
+  display: flex;
+  gap: 4px;
+}
+
+.lvs__keys i {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 14%) inset;
+  font-size: 10px;
+  font-style: normal;
+  text-align: center;
+  color: #e4e4ee;
+}
+
+.lvs__keys i.sw {
+  flex: 2.2;
+  box-shadow: 0 0 0 1px #7c5cfc inset;
+  color: #c4b5fd;
+}
+
+.lvs__type {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #16161f;
+  font-size: 11.5px;
+  color: #8b8ba6;
+  transition: color 0.3s;
+}
+
+.lvs__type.is-on {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  color: #fff;
+}
+
+.lvs__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgb(255 255 255 / 8%);
+}
+
+.lvs__bar i {
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: rgb(255 255 255 / 8%);
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 700;
+  color: #e4e4ee;
+}
+
+.lvs__bar i.lock {
+  background: #7c5cfc;
+  color: #fff;
+}
+
+.lvs__bar i.ms {
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #a78bfa;
+  background: transparent;
+}
+
+.lvs__bar i.ms--r {
+  margin-left: 0;
+}
+
+.lvs__sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 16px 14px 20px;
+  border-radius: 22px 22px 0 0;
+  background: #1b1b26;
+  box-shadow: 0 -20px 40px rgb(0 0 0 / 50%);
+  transform: translateY(105%);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lvs__sheet.is-on {
+  transform: none;
+}
+
+.lvs__sheet strong {
+  font-size: 15px;
+}
+
+.lvs__sk {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8b8ba6;
+}
+
+.lvs__app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: #23232f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.lvs__app small {
+  font-size: 10px;
+  font-weight: 500;
+  color: #a3a3bd;
+}
+
+.lvs__app span {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  display: flex;
+  gap: 4px;
+  transform: translateY(-50%);
+}
+
+.lvs__app span i {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 10%);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.lvs__app span i.close {
+  background: #ef4444;
+}
+
+.lvs__app--sys {
+  opacity: 0.6;
+}
+
+.lvs__toast {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 46px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition:
+    opacity 0.4s,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lvs__toast.is-on {
+  opacity: 1;
+  transform: none;
+}
