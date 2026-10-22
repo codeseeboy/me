@@ -395,7 +395,13 @@ export function PgFilm({ clean = false }: { clean?: boolean }) {
       )}
 
       {!clean && <Chapter t={t} items={CHAPTERS} />}
-      {!clean && <Caption t={t} lines={LINES} />}
+      {!clean && (
+        <Caption
+          t={t}
+          lines={LINES}
+          box={{ left: L.x, right: Math.max(W - L.x - L.w, pip * 560), bottom: H - L.y - L.h, r: L.r }}
+        />
+      )}
       {t >= 52.8 && <EndCard t={t} at={53.4} mark={<PgMark />} name="Privacy Guardian" line="Your laptop, unlocked. Your private stuff, not." sub="Windows + Android · Access by request" />}
       <div className="fk-flash" style={{ zIndex: 70, background: '#000', opacity: Math.max(1 - tw(t, 0, 0.5), tw(t, 57.3, 58)) }} />
     </div>

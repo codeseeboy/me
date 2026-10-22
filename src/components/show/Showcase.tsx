@@ -1,7 +1,20 @@
-import { useEffect, useRef } from 'react'
 import type { MediaKind } from '../../data/work'
 import { Stage, at, cx, useSteps } from './Stage'
 import { GUARDIAN_STEPS, Guardian, LIVE_STEPS, LiveShow, MEDIATOR_STEPS, MediatorShow } from './Products'
+import {
+  CAREER_STEPS,
+  CLAUSE_STEPS,
+  CareerShow,
+  ClauseShow,
+  FORMULA_STEPS,
+  FormulaShow,
+  HEALTH_STEPS,
+  HealthShow,
+  SQL_STEPS,
+  SqlShow,
+  TRUST_STEPS,
+  TrustShow,
+} from './More'
 import './show.css'
 
 export { GUARDIAN_STEPS, Guardian, LIVE_STEPS, LiveShow, MEDIATOR_STEPS, MediatorShow }
@@ -203,186 +216,6 @@ export function Desk({ step }: { step: number }) {
 }
 
 /* ================================================================== *
- * UAV 3D — the reconstructed cloud, turning, with the flight path.
- * ================================================================== */
-
-type P = [number, number, number, string]
-
-/** A deterministic cloud: a tower whose glass half is missing, the ground around it, and a flight path. */
-function makeCloud(): { pts: P[]; path: [number, number, number][] } {
-  let s = 7
-  const rnd = () => {
-    s = (s * 16807) % 2147483647
-    return (s - 1) / 2147483646
-  }
-  const pts: P[] = []
-  const tone = (y: number) => {
-    const t = Math.min(1, y / 4.2)
-    const r = Math.round(120 + t * 120)
-    const g = Math.round(130 + t * 110)
-    const b = Math.round(220 + t * 30)
-    return `rgb(${r},${g},${b})`
-  }
-  // Tower: two solid faces, two faces that the glass hid from the matcher.
-  for (let i = 0; i < 2600; i++) {
-    const y = rnd() * 4.2
-    const f = Math.floor(rnd() * 4)
-    if ((f === 2 || f === 3) && rnd() > 0.12) continue
-    const u = rnd() * 2 - 1
-    const p: [number, number, number] = f === 0 ? [u, y, -1] : f === 1 ? [-1, y, u] : f === 2 ? [1, y, u] : [u, y, 1]
-    pts.push([p[0] + (rnd() - 0.5) * 0.04, p[1], p[2] + (rnd() - 0.5) * 0.04, tone(y)])
-  }
-  // Ground.
-  for (let i = 0; i < 2600; i++) {
-    const a = rnd() * Math.PI * 2
-    const r = 1.2 + Math.sqrt(rnd()) * 3.6
-    const x = Math.cos(a) * r
-    const z = Math.sin(a) * r
-    const g = Math.round(110 + rnd() * 60)
-    pts.push([x, (rnd() - 0.5) * 0.03, z, `rgb(${g - 20},${g},${g - 30})`])
-  }
-  // A road.
-  for (let i = 0; i < 500; i++) {
-    const x = rnd() * 9 - 4.5
-    pts.push([x, 0.01, 2.6 + rnd() * 0.5, 'rgb(90,92,104)'])
-  }
-  const path: [number, number, number][] = []
-  for (let i = 0; i <= 40; i++) {
-    const t = i / 40
-    const a = -0.6 + t * 2.4
-    path.push([Math.cos(a) * 3.1, 0.6 + t * 3.6, Math.sin(a) * 3.1])
-  }
-  return { pts, path }
-}
-
-export function Mesh({ live, angle = 0.6 }: { live: boolean; angle?: number }) {
-  const ref = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const canvas = ref.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    const { pts, path } = makeCloud()
-    const W = 880
-    const H = 560
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    canvas.width = W * dpr
-    canvas.height = H * dpr
-    ctx.scale(dpr, dpr)
-
-    const project = (x: number, y: number, z: number, a: number): [number, number, number] => {
-      const ca = Math.cos(a)
-      const sa = Math.sin(a)
-      const rx = x * ca - z * sa
-      const rz = x * sa + z * ca
-      // tilt the camera down a little
-      const ty = y - 1.6
-      const cy = Math.cos(0.38)
-      const sy = Math.sin(0.38)
-      const yy = ty * cy - rz * sy
-      const zz = ty * sy + rz * cy + 9.5
-      const f = 620 / zz
-      return [W / 2 + rx * f, H * 0.56 - yy * f, zz]
-    }
-
-    let a = angle
-    let raf = 0
-    let lastT = performance.now()
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H)
-      const proj = pts.map((p) => [...project(p[0], p[1], p[2], a), p[3]] as [number, number, number, string])
-      proj.sort((p, q) => q[2] - p[2])
-      for (const [x, y, z, c] of proj) {
-        const r = Math.max(0.7, 2.6 - z * 0.14)
-        ctx.fillStyle = c
-        ctx.fillRect(x, y, r, r)
-      }
-      // flight path + camera frustums
-      ctx.strokeStyle = 'rgba(250, 204, 21, 0.9)'
-      ctx.lineWidth = 1.6
-      ctx.beginPath()
-      path.forEach((p, i) => {
-        const [x, y] = project(p[0], p[1], p[2], a)
-        if (i === 0) ctx.moveTo(x, y)
-        else ctx.lineTo(x, y)
-      })
-      ctx.stroke()
-      ctx.fillStyle = 'rgba(250, 204, 21, 0.95)'
-      path.forEach((p, i) => {
-        if (i % 5) return
-        const [x, y] = project(p[0], p[1], p[2], a)
-        ctx.beginPath()
-        ctx.moveTo(x, y - 5)
-        ctx.lineTo(x + 5, y + 4)
-        ctx.lineTo(x - 5, y + 4)
-        ctx.closePath()
-        ctx.fill()
-      })
-      // the measured distance: base of the tower to the road
-      const m1 = project(-1, 0, 1, a)
-      const m2 = project(3.2, 0, 2.8, a)
-      ctx.strokeStyle = '#fb7185'
-      ctx.setLineDash([5, 4])
-      ctx.beginPath()
-      ctx.moveTo(m1[0], m1[1])
-      ctx.lineTo(m2[0], m2[1])
-      ctx.stroke()
-      ctx.setLineDash([])
-      for (const m of [m1, m2]) {
-        ctx.fillStyle = '#fb7185'
-        ctx.beginPath()
-        ctx.arc(m[0], m[1], 4, 0, Math.PI * 2)
-        ctx.fill()
-      }
-      ctx.font = '600 13px Montserrat, sans-serif'
-      ctx.fillStyle = '#fff1f2'
-      ctx.fillText('142.5 m', (m1[0] + m2[0]) / 2 + 8, (m1[1] + m2[1]) / 2 - 8)
-    }
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const tick = (now: number) => {
-      const dt = Math.min(0.05, (now - lastT) / 1000)
-      lastT = now
-      a += dt * 0.22
-      draw()
-      raf = requestAnimationFrame(tick)
-    }
-    draw()
-    if (live && !reduce) raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [live, angle])
-
-  return (
-    <div className="msh">
-      <canvas ref={ref} className="msh__cv" style={{ width: 880, height: 560 }} />
-      <div className="msh__top">
-        <span className="msh__title">
-          Dense cloud <b>447,207 points</b>
-        </span>
-        <span className="msh__tools">
-          <i className="is-on">Points</i>
-          <i>Mesh</i>
-          <i>Flight</i>
-          <i>Measure</i>
-        </span>
-      </div>
-      <div className="msh__foot">
-        <span>
-          <b>40 / 40</b> frames registered
-        </span>
-        <span>
-          <b>2.38 m</b> GPS RMSE
-        </span>
-        <span>
-          <b>0.389 px</b> reprojection
-        </span>
-      </div>
-    </div>
-  )
-}
-
-/* ================================================================== *
  * UrbanFix AI — a photo in, a category, a department and a fix out.
  * ================================================================== */
 
@@ -459,30 +292,61 @@ export const SIZE: Record<ShowKind, [number, number]> = {
   guardian: [880, 560],
   mediator: [880, 560],
   desk: [880, 560],
-  mesh: [880, 560],
   civic: [640, 600],
+  clause: [880, 560],
+  trust: [880, 560],
+  health: [880, 560],
+  formula: [880, 560],
+  career: [880, 560],
+  sql: [880, 560],
 }
 
-const DURATIONS: Record<Exclude<ShowKind, 'mesh'>, number[]> = {
+const DURATIONS: Record<ShowKind, number[]> = {
   non8: NON8_STEPS,
   guardian: GUARDIAN_STEPS,
   mediator: MEDIATOR_STEPS,
   desk: DESK_STEPS,
   civic: CIVIC_STEPS,
   live: LIVE_STEPS,
+  clause: CLAUSE_STEPS,
+  trust: TRUST_STEPS,
+  health: HEALTH_STEPS,
+  formula: FORMULA_STEPS,
+  career: CAREER_STEPS,
+  sql: SQL_STEPS,
 }
 
 /** One mockup frozen at a given step — for the scroll-driven stories on the product pages. */
-export function ShowAt({ kind, step }: { kind: Exclude<ShowKind, 'mesh'>; step: number }) {
-  if (kind === 'non8') return <Non8 step={step} />
-  if (kind === 'guardian') return <Guardian step={step} />
-  if (kind === 'mediator') return <MediatorShow step={step} />
-  if (kind === 'desk') return <Desk step={step} />
-  if (kind === 'live') return <LiveShow step={step} />
-  return <Civic step={step} />
+export function ShowAt({ kind, step }: { kind: ShowKind; step: number }) {
+  switch (kind) {
+    case 'non8':
+      return <Non8 step={step} />
+    case 'guardian':
+      return <Guardian step={step} />
+    case 'mediator':
+      return <MediatorShow step={step} />
+    case 'desk':
+      return <Desk step={step} />
+    case 'live':
+      return <LiveShow step={step} />
+    case 'clause':
+      return <ClauseShow step={step} />
+    case 'trust':
+      return <TrustShow step={step} />
+    case 'health':
+      return <HealthShow step={step} />
+    case 'formula':
+      return <FormulaShow step={step} />
+    case 'career':
+      return <CareerShow step={step} />
+    case 'sql':
+      return <SqlShow step={step} />
+    default:
+      return <Civic step={step} />
+  }
 }
 
-function Stepped({ kind, live }: { kind: Exclude<ShowKind, 'mesh'>; live: boolean }) {
+function Stepped({ kind, live }: { kind: ShowKind; live: boolean }) {
   const step = useSteps(DURATIONS[kind], live)
   return <ShowAt kind={kind} step={step} />
 }
@@ -495,13 +359,19 @@ export const CROP: Partial<Record<ShowKind, [number, number, number, number]>> =
   mediator: [0, 0, 540, 560],
   desk: [0, 0, 470, 560],
   civic: [0, 0, 310, 600],
+  clause: [200, 38, 680, 522],
+  trust: [470, 0, 410, 560],
+  health: [60, 0, 310, 560],
+  formula: [190, 0, 690, 560],
+  career: [170, 0, 710, 560],
+  sql: [0, 0, 880, 560],
 }
 
 export default function Showcase({ kind, live }: { kind: ShowKind; live: boolean }) {
   const [w, h] = SIZE[kind]
   return (
     <Stage w={w} h={h} crop={CROP[kind]}>
-      {kind === 'mesh' ? <Mesh live={live} /> : <Stepped kind={kind} live={live} />}
+      <Stepped kind={kind} live={live} />
     </Stage>
   )
 }

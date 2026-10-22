@@ -4,6 +4,7 @@
 # components the gallery animates.
 #   bash scripts/render-films.sh          films (if missing), posters, ring cards
 #   bash scripts/render-films.sh posters  posters and ring cards only
+#   bash scripts/render-films.sh all      re-render the films too
 set -e
 cd "$(dirname "$0")/.."
 ENTRY=remotion/index.ts
@@ -16,14 +17,14 @@ poster() { npx remotion still $ENTRY "$1" "$OUT/$2.jpg" --frame="$3" --image-for
 card() { npx remotion still $ENTRY Ring "$RING/$1.jpg" --image-format=jpeg --jpeg-quality=86 --props="{\"kind\":\"$1\"}"; }
 
 [ "$1" = "posters" ] || {
-  [ -f "$OUT/privacy-guardian.mp4" ] || film PgFilm privacy-guardian
-  [ -f "$OUT/live-desktop.mp4" ] || film LiveFilm live-desktop
-  [ -f "$OUT/mediator.mp4" ] || film MedFilm mediator
+  [ "$1" != "all" ] && [ -f "$OUT/privacy-guardian.mp4" ] || film PgFilm privacy-guardian
+  [ "$1" != "all" ] && [ -f "$OUT/live-desktop.mp4" ] || film LiveFilm live-desktop
+  [ "$1" != "all" ] && [ -f "$OUT/mediator.mp4" ] || film MedFilm mediator
 }
 
 poster PgFilm privacy-guardian 345
 poster LiveFilm live-desktop 588
 poster MedFilm mediator 900
 
-for k in non8 guardian mediator desk mesh civic; do card "$k"; done
+for k in non8 guardian mediator desk civic clause trust health formula career sql; do card "$k"; done
 echo "done"

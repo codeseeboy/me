@@ -41,14 +41,31 @@ export const typed = (s: string, p: number) => s.slice(0, Math.round(s.length * 
 
 export type Line = [number, number, string, string?]
 
+/** Where a caption sits: the full width, or inside one panel of a split. */
+export type CapBox = { left: number; right: number; bottom: number; r?: number }
+
 /** Big lower-third captions, word by word — the narration of the film. */
-export function Caption({ t, lines, tone = 'dark' }: { t: number; lines: Line[]; tone?: 'dark' | 'light' }) {
+export function Caption({ t, lines, tone = 'dark', box }: { t: number; lines: Line[]; tone?: 'dark' | 'light'; box?: CapBox }) {
   const c = lines.find(([a, b]) => t >= a && t < b)
   if (!c) return null
   const [a, b, title, sub] = c
   const out = tw(t, b - 0.35, b, easeIn)
+  /* Narrow boxes get smaller type so a line still fits in two rows. */
+  const narrow = box ? Math.min(1, Math.max(0, (W - box.left - box.right - 760) / 500)) : 1
+  const frame: CSSProperties = box
+    ? {
+        left: box.left,
+        right: box.right,
+        bottom: box.bottom,
+        paddingLeft: lerp(48, 120, narrow),
+        paddingRight: lerp(48, 120, narrow),
+        paddingBottom: lerp(56, 86, narrow),
+        borderRadius: `0 0 ${box.r ?? 0}px ${box.r ?? 0}px`,
+        ['--cap-k' as string]: lerp(0.56, 1, narrow),
+      }
+    : {}
   return (
-    <div className={`fk-cap fk-cap--${tone}`} style={{ opacity: 1 - out }}>
+    <div className={`fk-cap fk-cap--${tone}`} style={{ opacity: 1 - out, ...frame }}>
       <p className="fk-cap__title">
         {title.split(' ').map((w, i) => {
           const p = tw(t, a + i * 0.06, a + i * 0.06 + 0.55)

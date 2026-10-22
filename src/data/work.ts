@@ -1,6 +1,6 @@
 /**
- * The work. Only my own products and projects — no client or employer work,
- * which stays private. Six cases, flagship first.
+ * The work. Only my own products and projects — no employer work, which
+ * stays private. Flagship first.
  *
  * Read from the projects' own code and docs: every number is a measured
  * timing, a test count, a config value or a shipped artefact.
@@ -9,7 +9,7 @@
 export type TitleStyle = 'editorial' | 'display'
 
 /** What the media column draws: a live, animated rendering of the product. */
-export type MediaKind = 'non8' | 'guardian' | 'mediator' | 'desk' | 'mesh' | 'civic'
+export type MediaKind = 'non8' | 'guardian' | 'mediator' | 'desk' | 'civic' | 'clause' | 'trust' | 'health' | 'formula' | 'career' | 'sql'
 
 export interface StoryVisual {
   kind: 'flow' | 'layers' | 'metrics' | 'list' | 'quote'
@@ -112,14 +112,52 @@ export const CASES: CaseStudy[] = [
         },
       },
       {
-        kicker: 'From answers to finished work',
+        kicker: 'The model picks its own tools',
         body: [
-          'For Smart India Hackathon 2026 the engine became an agent. It plans, calls tools — document search, sandboxed code with the network blocked, unit-aware calculation — checks the results and writes real .docx, .xlsx and .pptx files. Passages above a user’s clearance are removed before ranking, so they never reach the model.',
+          'For Smart India Hackathon 2026 the engine became an agent that plans, calls tools, checks what came back and keeps going. Tools are chosen by the model’s own tool-calling, not a keyword rule: on a 42-prompt routing test it chose correctly 36 times against 28 for the old rule, with no forbidden calls and no malformed arguments across 84 runs.',
         ],
         visual: {
-          kind: 'flow',
-          items: [{ k: 'Plan' }, { k: 'Search' }, { k: 'Compute' }, { k: 'Check' }, { k: 'Draft' }],
+          kind: 'metrics',
+          items: [
+            { k: '36/42', v: 'right tools · was 28' },
+            { k: '0', v: 'malformed calls in 84 runs' },
+            { k: '7', v: 'tools it can call' },
+          ],
         },
+      },
+      {
+        kicker: 'Seven tools, all local',
+        body: [
+          'Document search, side-by-side comparison, a calculator that refuses to add a pressure to a temperature, Python run inside a bubblewrap sandbox with the network cut off, an equipment-tag graph, image generation, and a writer that turns the answer into a real file.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Search · compare', v: 'your documents' },
+            { k: 'Calculate', v: 'unit-aware, steps shown' },
+            { k: 'Run code', v: 'sandboxed, no network' },
+            { k: 'Tag graph', v: 'one tag across every document' },
+            { k: 'Deliverable', v: 'PDF · DOCX · PPTX · XLSX' },
+          ],
+        },
+      },
+      {
+        kicker: 'Answers that become files',
+        body: [
+          'Ask for a report and the content streams on screen from the first second, then becomes the PDF, Word, PowerPoint or Excel file. Before this, the model wrote the whole document as hidden tool arguments and nothing appeared until it finished — one PDF took 7 minutes 45 seconds of blank screen.',
+        ],
+      },
+      {
+        kicker: 'Equipment tags that connect',
+        body: [
+          'Plant documents are organised around tag numbers. The tag graph treats 10-P-101A, 10P101A and 10 P 101 A as the same pump, links every document that mentions it, and flags a contradiction — say, two different design pressures for one tag.',
+        ],
+      },
+      {
+        kicker: 'Retrieval that respects clearance',
+        body: [
+          'Passages above a user’s clearance are removed before ranking, so they never reach the model; the user is told how many were withheld, never what they said. Every generated file carries a provenance record with hashes of the actual model weights and the tool actions used.',
+        ],
       },
       {
         kicker: 'Fast on a single GPU',
@@ -131,14 +169,20 @@ export const CASES: CaseStudy[] = [
           items: [
             { k: '0.8s', v: 'was 60–80 s' },
             { k: '2.6s', v: 'document answer' },
-            { k: '157', v: 'engine tests' },
+            { k: '309', v: 'automated tests' },
           ],
         },
       },
       {
         kicker: 'Offline you can check',
         body: [
-          'Telemetry is switched off before any library loads, model loading never reaches for the internet, and a tokenizer that silently downloaded its vocabulary was removed outright. An air-gap self-test makes real connection attempts to public AI services and DNS and shows every one of them fail.',
+          'Telemetry is switched off before any library loads, model loading never reaches for the internet, and a tokenizer that quietly downloaded its vocabulary was removed. Air-gap proof mode makes real connection attempts to public AI services and DNS, shows each one fail, and reads the kernel’s own drop counters — numbers the app cannot fake.',
+        ],
+      },
+      {
+        kicker: 'A platform around the engine',
+        body: [
+          'The team’s platform wraps it: every sign-in is approved live by an administrator, roles and clearances decide what each person sees, data at rest sits in SQLCipher, tokens are PASETO, and the audit log is Ed25519-signed and sealed into a Merkle chain so tampering shows.',
         ],
       },
     ],
@@ -267,76 +311,8 @@ export const CASES: CaseStudy[] = [
   },
   /* ------------------------------------------------------------------ */
   {
-    slug: 'drone-3d',
-    num: '05',
-    brand: 'UAV 3D',
-    accent: '#4338ca',
-    title: ['Drone Video', 'to a 3D Map'],
-    titleStyle: 'editorial',
-    tags: ['#COLMAP', '#Photogrammetry', '#three.js'],
-    what:
-      'One continuous drone flight in; camera poses, a dense point cloud, a textured mesh and a 3D viewer you can measure in come out — with accuracy figures attached to every claim.',
-    media: 'mesh',
-    meta: [
-      { k: 'Type', v: 'Computer vision · 2026' },
-      { k: 'Role', v: 'Sole engineer' },
-      { k: 'Runs on', v: 'Remote TITAN Xp over SSH' },
-    ],
-    intro:
-      'turns a single pass of drone video into georeferenced 3D. Heavy processing runs on a remote GPU; the laptop drives the pipeline and serves the viewer.',
-    story: [
-      {
-        kicker: 'Frames worth keeping',
-        body: [
-          'A 35-second 2560×1440 flight up a glass tower gives 211 frames; 40 keyframes are chosen by measured optical-flow overlap. COLMAP registers all 40 at 0.389 px mean reprojection error.',
-        ],
-        visual: {
-          kind: 'flow',
-          items: [{ k: 'Video' }, { k: 'Keyframes' }, { k: 'SfM' }, { k: 'Dense MVS' }, { k: 'Mesh' }, { k: 'Viewer' }],
-        },
-      },
-      {
-        kicker: 'Dense, then solid',
-        body: [
-          'CUDA patch-match stereo turns the sparse model into 447,207 dense points, then a 446,613-triangle textured mesh exported as GLB.',
-        ],
-        visual: {
-          kind: 'metrics',
-          items: [
-            { k: '447K', v: 'dense points' },
-            { k: '40/40', v: 'frames registered' },
-            { k: '0.256', v: 'px median error' },
-          ],
-        },
-      },
-      {
-        kicker: 'Real metres, not model units',
-        body: [
-          'On a 48-image geotagged survey, GPS goes WGS84 → ECEF → ENU and an Umeyama similarity under RANSAC recovers scale: 48 of 48 inliers at 2.38 m RMSE. A distance measured in the viewer read 142.53 m against a hand calculation of 142.4 m.',
-        ],
-        visual: {
-          kind: 'metrics',
-          items: [
-            { k: '2.38m', v: 'trajectory RMSE' },
-            { k: '48/48', v: 'GPS inliers' },
-            { k: '142.5m', v: 'measured in viewer' },
-          ],
-        },
-      },
-      {
-        kicker: 'Honest about what it cannot see',
-        body: [
-          'Mirrored glass breaks every stereo matcher, so half the tower has no points — and the viewer says so, reporting texture coverage and per-point confidence instead of presenting holes as finished geometry. A Flight button steps through the real drone poses.',
-        ],
-      },
-    ],
-    stack: ['Python', 'COLMAP', 'CUDA', 'OpenCV', 'PyTorch', 'three.js', 'React', 'FastAPI'],
-    links: [],
-  },
-  /* ------------------------------------------------------------------ */
-  {
     slug: 'urbanfix',
-    num: '06',
+    num: '05',
     brand: 'UrbanFix AI',
     accent: '#17784a',
     title: ['Civic Issue', 'Intelligence'],
@@ -407,6 +383,346 @@ export const CASES: CaseStudy[] = [
     stack: ['Python', 'PyTorch', 'YOLOv8', 'SigLIP', 'FastAPI', 'React Native', 'Expo', 'Node.js', 'Supabase', 'PostGIS', 'Docker'],
     links: [{ label: 'GitHub', href: 'https://github.com/codeseeboy/urban-fix-ai' }],
   },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'clausewise',
+    num: '06',
+    brand: 'Clausewise',
+    accent: '#b42318',
+    title: ['Find the Clause,', 'Cite the Clause'],
+    titleStyle: 'editorial',
+    tags: ['#Hybrid-Search', '#Reranking', '#Local-RAG'],
+    what:
+      'A search engine for company policy documents that measures three ways of searching on the same questions — and answers with a local LLM that must cite the exact clause it used.',
+    media: 'clause',
+    meta: [
+      { k: 'Type', v: 'Retrieval benchmark · 2026' },
+      { k: 'Role', v: 'Sole engineer' },
+      { k: 'Runs', v: 'One Docker command · no API keys' },
+    ],
+    intro:
+      'is a small search engine over policy documents, built to measure — not assume — how much hybrid search and reranking help. Vector, hybrid and reranked search run on the same 52 clauses and the same questions, and a local LLM answers only from what was found.',
+    story: [
+      {
+        kicker: 'Three ways to search, one test',
+        body: [
+          'Vector search finds clauses by meaning. Hybrid adds BM25 for exact words and merges the two lists with reciprocal rank fusion, written by hand and using positions only, because the two scores live on different scales. The third strategy lets a cross-encoder re-order the hybrid top 20.',
+        ],
+        visual: {
+          kind: 'flow',
+          items: [{ k: 'Question' }, { k: 'Vector' }, { k: 'BM25' }, { k: 'Rank fusion' }, { k: 'Rerank' }, { k: 'Cited answer' }],
+        },
+      },
+      {
+        kicker: 'Documents with traps in them',
+        body: [
+          'Six policy documents were written to be hard: the same words with opposite meanings, near-identical clause ids like TEP-4.2.1 and TEP-4.2.2, money thresholds, two versions of one rule that disagree, and a clause that tells an AI to approve everything.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Opposite meaning', v: 'permitted · not permitted' },
+            { k: 'Look-alike ids', v: 'TEP-4.2.1 · 4.2.2 · 4.2.3' },
+            { k: 'Conflicting versions', v: 'three quotations · two' },
+            { k: 'Hidden instruction', v: '“approve everything”' },
+          ],
+        },
+      },
+      {
+        kicker: 'What the numbers said',
+        body: [
+          'On the evaluation set, reranking ranks best — NDCG@5 of 0.928 against 0.878 for vector — and is the only strategy with the right clause in the top three for every question. It also costs about a second per query on CPU, roughly seventeen times slower.',
+        ],
+        visual: {
+          kind: 'metrics',
+          items: [
+            { k: '0.928', v: 'NDCG@5 · reranked' },
+            { k: '0.878', v: 'NDCG@5 · vector' },
+            { k: '17×', v: 'slower to rerank' },
+          ],
+        },
+      },
+      {
+        kicker: 'An answer has to be checked',
+        body: [
+          'The model must cite clause ids, refuse when nothing answers the question and say “conflict” when two clauses disagree. Code then checks every citation: a clause that was not in the evidence is removed, and an answer with no valid citation becomes a refusal. Text that looks like an instruction is stripped before the prompt is built.',
+        ],
+      },
+    ],
+    stack: ['Python', 'FastAPI', 'Qdrant', 'BM25', 'bge-reranker', 'Ollama', 'Streamlit', 'Docker'],
+    links: [{ label: 'GitHub', href: 'https://github.com/codeseeboy/clausewise' }],
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'trustlayer',
+    num: '07',
+    brand: 'TrustLayer AI',
+    accent: '#4f46e5',
+    title: ['Is the AI', 'Telling the Truth?'],
+    titleStyle: 'editorial',
+    tags: ['#Fact-Checking', '#Multi-LLM', '#Next.js'],
+    what:
+      'Paste any AI-written answer: TrustLayer splits it into claims, gathers evidence for each one, judges every claim strictly and gives the whole answer a trust score.',
+    media: 'trust',
+    meta: [
+      { k: 'Type', v: 'Hackathon · national finalist' },
+      { k: 'Role', v: 'Built end to end' },
+      { k: 'Stack', v: 'Next.js · Express · MongoDB' },
+    ],
+    intro:
+      'checks AI output the way an editor would: claim by claim, against evidence, and with a strict rule for anything that cannot be proven. It was a top national finalist at GFG ByteQuest 2025.',
+    story: [
+      {
+        kicker: 'Claim by claim',
+        body: [
+          'The pasted text is broken into individual claims with the entities they mention. Each claim gets its own evidence — a Wikipedia lookup for the entity and a web search — and its own verdict, so one wrong sentence cannot hide inside a mostly correct answer.',
+        ],
+        visual: {
+          kind: 'flow',
+          items: [{ k: 'Paste' }, { k: 'Extract claims' }, { k: 'Gather evidence' }, { k: 'Judge' }, { k: 'Trust score' }],
+        },
+      },
+      {
+        kicker: 'Strict on purpose',
+        body: [
+          'A claim is either verified or treated as a hallucination. A “verified” verdict below 85% confidence is downgraded, and an absolute claim — always, never, the only — needs 90%. If no model can be reached at all, the claim cannot be verified, so it is not.',
+        ],
+        visual: {
+          kind: 'metrics',
+          items: [
+            { k: '85%', v: 'to count as verified' },
+            { k: '90%', v: 'for absolute claims' },
+            { k: '−1.5', v: 'per hallucination' },
+          ],
+        },
+      },
+      {
+        kicker: 'It keeps working when a model does not',
+        body: [
+          'The judge falls back from Llama 3.3 70B on Groq to Gemini 2.5 Flash to OpenRouter, each behind a rate limiter with retries. Progress streams to the browser over server-sent events, and every report is saved for later.',
+        ],
+        visual: {
+          kind: 'layers',
+          layers: [
+            { label: 'Judge', nodes: ['Groq · Llama 3.3', 'Gemini 2.5 Flash', 'OpenRouter'] },
+            { label: 'Evidence', nodes: ['Wikipedia', 'Web search'] },
+            { label: 'Store', nodes: ['MongoDB reports'] },
+          ],
+        },
+      },
+    ],
+    stack: ['TypeScript', 'Next.js', 'Express', 'MongoDB', 'Gemini', 'Groq', 'Server-Sent Events'],
+    links: [],
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'healthsuite',
+    num: '08',
+    brand: 'HealthSuite',
+    accent: '#4f46e5',
+    title: ['A Health App', 'That Looks Closer'],
+    titleStyle: 'editorial',
+    tags: ['#React-Native', '#Computer-Vision', '#BERT'],
+    what:
+      'A mobile health companion: scan a skin condition, check a prescription for drug interactions, track symptoms and medicines, and read heart rate straight from a smartwatch.',
+    media: 'health',
+    meta: [
+      { k: 'Type', v: 'Personal project · 2025' },
+      { k: 'Role', v: 'Sole engineer' },
+      { k: 'Built with', v: 'Expo · Flask · TensorFlow · BERT' },
+    ],
+    intro:
+      '(Arogya inside the app) is an Expo app backed by small model services: a skin classifier, a drug-interaction checker and a symptom assistant, with health records kept in Supabase.',
+    story: [
+      {
+        kicker: 'Models doing specific jobs',
+        body: [
+          'A ResNet50 classifier sorts a skin photo into acne, eczema, melanoma, psoriasis or rosacea. A BERT named-entity model reads a prescription and pulls out the drug names, which are then checked against an interactions dataset.',
+        ],
+        visual: {
+          kind: 'layers',
+          layers: [
+            { label: 'Skin scan', nodes: ['ResNet50 · 5 conditions'] },
+            { label: 'Prescriptions', nodes: ['BERT drug NER', 'Interaction dataset'] },
+            { label: 'Symptoms', nodes: ['SymptoCare assistant'] },
+          ],
+        },
+      },
+      {
+        kicker: 'Real signals, not typed numbers',
+        body: [
+          'Heart rate, blood pressure and steps come from a ColorFit Pulse 2 Max smartwatch over Bluetooth Low Energy, and air quality, UV and weather come from OpenWeather — so the app can talk about the day you are actually having.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Smartwatch', v: 'heart rate · BP · steps (BLE)' },
+            { k: 'Environment', v: 'AQI · UV · weather' },
+            { k: 'Records', v: 'allergies · conditions · symptoms' },
+          ],
+        },
+      },
+      {
+        kicker: 'Everything a patient juggles',
+        body: [
+          'Medicine planner, appointments, a prescription scanner, health records for allergies and conditions, symptom history and an assistant — one app instead of six.',
+        ],
+      },
+    ],
+    stack: ['React Native', 'Expo', 'TypeScript', 'Flask', 'TensorFlow', 'BERT', 'Supabase', 'BLE'],
+    links: [],
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'formulab',
+    num: '09',
+    brand: 'FormuLab',
+    accent: '#0f766e',
+    title: ['R&D for', 'Formulation Chemists'],
+    titleStyle: 'editorial',
+    tags: ['#Next.js', '#RAG', '#Appwrite'],
+    what:
+      'A web app for agrochemical formulation teams: ingredients, formulations and stability tests, an AI formulation wizard, troubleshooting, and a document search that answers only with citations.',
+    media: 'formula',
+    meta: [
+      { k: 'Type', v: 'Product build · pilot' },
+      { k: 'Role', v: 'Built end to end' },
+      { k: 'Stack', v: 'Next.js 16 · Appwrite' },
+    ],
+    intro:
+      'is decision support for formulation R&D. It keeps a team’s ingredients and formulations, helps design and troubleshoot them with AI, and searches the team’s own documents — always saying what is real data, what is AI and what came from the built-in handbook.',
+    story: [
+      {
+        kicker: 'Answers with sources, or no answer',
+        body: [
+          'Knowledge search indexes uploaded documents, web pages, Wikipedia and PubChem. It answers only from those sources, with citations, and refuses when its trust score is low.',
+        ],
+        visual: {
+          kind: 'flow',
+          items: [{ k: 'Upload · URL · PubChem' }, { k: 'Index' }, { k: 'Retrieve' }, { k: 'Cite or refuse' }],
+        },
+      },
+      {
+        kicker: 'Honest about where help comes from',
+        body: [
+          'The formulation wizard and troubleshooter use a live model with the team’s documents as context. If the model is unreachable they fall back to a curated handbook, and the screen says so — Live AI or Handbook mode — instead of pretending.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Live AI', v: 'model + document context' },
+            { k: 'Handbook mode', v: 'curated, clearly labelled' },
+            { k: 'Saved', v: 'troubleshooting history' },
+          ],
+        },
+      },
+      {
+        kicker: 'Built for a team',
+        body: [
+          'Accounts, team invites, organisation-scoped data, an audit log, lab stability tests per formulation and PDF reports stored with the project.',
+        ],
+      },
+    ],
+    stack: ['TypeScript', 'Next.js', 'Appwrite', 'RAG', 'PubChem', 'jsPDF'],
+    links: [],
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'careercraft',
+    num: '10',
+    brand: 'CareerCraft AI',
+    accent: '#1d4ed8',
+    title: ['Résumé In,', 'Career Plan Out'],
+    titleStyle: 'editorial',
+    tags: ['#Gemini', '#Next.js', '#Express'],
+    what:
+      'Upload a résumé and get an ATS score, a review, a career roadmap, matching jobs and short AI-made assessments that earn skill badges.',
+    media: 'career',
+    meta: [
+      { k: 'Type', v: 'Personal project · 2025' },
+      { k: 'Role', v: 'Built end to end' },
+      { k: 'Stack', v: 'Next.js · Express · Gemini 2.5' },
+    ],
+    intro:
+      'turns a résumé into a plan. A Next.js dashboard sits on an Express API that uses Gemini 2.5 Flash for analysis, roadmaps, assessments and a career chat.',
+    story: [
+      {
+        kicker: 'From one upload',
+        body: [
+          'The résumé is parsed and scored for applicant-tracking systems, reviewed for what is missing, and turned into a step-by-step roadmap toward the role you want — with matching job listings alongside.',
+        ],
+        visual: {
+          kind: 'flow',
+          items: [{ k: 'Upload' }, { k: 'ATS score' }, { k: 'Review' }, { k: 'Roadmap' }, { k: 'Jobs' }],
+        },
+      },
+      {
+        kicker: 'Learning that proves itself',
+        body: [
+          'For each course the AI writes a short multiple-choice assessment. Score 70% or more and you earn a badge for that skill; your history and badges stay on the dashboard.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Assessment', v: 'written by the AI per course' },
+            { k: 'Pass mark', v: '70%' },
+            { k: 'Reward', v: 'a badge for that skill' },
+          ],
+        },
+      },
+    ],
+    stack: ['TypeScript', 'Next.js', 'Express', 'Gemini 2.5 Flash', 'Supabase', 'Multer'],
+    links: [],
+  },
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'sql-agent',
+    num: '11',
+    brand: 'SQL AI Agent',
+    accent: '#0e7490',
+    title: ['Ask Your Database', 'in Plain English'],
+    titleStyle: 'editorial',
+    tags: ['#Text-to-SQL', '#LLMs', '#React'],
+    what:
+      'Ask a business question in plain English; the agent reads the live database schema, writes the SQL, runs it, explains the answer and picks the right chart.',
+    media: 'sql',
+    meta: [
+      { k: 'Type', v: 'Personal project · 2025' },
+      { k: 'Role', v: 'Built end to end' },
+      { k: 'Stack', v: 'React · Express · PostgreSQL' },
+    ],
+    intro:
+      'is a conversational analyst over a SQL database. It works from the real schema, not a guess, and you can choose which model writes the query.',
+    story: [
+      {
+        kicker: 'Schema first',
+        body: [
+          'Before writing SQL, the agent reads every table and column from the database itself and puts that schema in the prompt. GPT-4o or Claude 3 Haiku writes the query, behind a rate limiter with retries; the result comes back as a plain-English answer.',
+        ],
+        visual: {
+          kind: 'flow',
+          items: [{ k: 'Question' }, { k: 'Read schema' }, { k: 'Write SQL' }, { k: 'Run' }, { k: 'Explain' }, { k: 'Chart' }],
+        },
+      },
+      {
+        kicker: 'The right chart for the answer',
+        body: [
+          'Chosen from the columns that actually came back: dates and months become a line chart; categories or regions become a pie when there are five or fewer, otherwise a bar chart; anything else stays a table.',
+        ],
+        visual: {
+          kind: 'list',
+          items: [
+            { k: 'Dates + numbers', v: 'line chart' },
+            { k: 'Up to 5 categories', v: 'pie chart' },
+            { k: 'More categories', v: 'bar chart' },
+            { k: 'Anything else', v: 'table' },
+          ],
+        },
+      },
+    ],
+    stack: ['TypeScript', 'React', 'Express', 'PostgreSQL', 'Supabase', 'OpenAI', 'Claude', 'Chart.js'],
+    links: [],
+  },
 ]
 
 export const caseBySlug = (slug: string) => CASES.find((c) => c.slug === slug)
@@ -429,6 +745,11 @@ export const RING: RingCard[] = [
   { name: 'Privacy Guardian', img: '/ring/guardian.jpg' },
   { name: 'Mediator', img: '/ring/mediator.jpg' },
   { name: 'DesktopCompanion', img: '/ring/desk.jpg' },
-  { name: 'UAV 3D', img: '/ring/mesh.jpg' },
   { name: 'UrbanFix AI', img: '/ring/civic.jpg' },
+  { name: 'Clausewise', img: '/ring/clause.jpg' },
+  { name: 'TrustLayer AI', img: '/ring/trust.jpg' },
+  { name: 'HealthSuite', img: '/ring/health.jpg' },
+  { name: 'FormuLab', img: '/ring/formula.jpg' },
+  { name: 'CareerCraft AI', img: '/ring/career.jpg' },
+  { name: 'SQL AI Agent', img: '/ring/sql.jpg' },
 ]
