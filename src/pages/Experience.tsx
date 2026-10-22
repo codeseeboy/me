@@ -160,7 +160,7 @@ export default function Experience() {
       <PageCover
         kicker="Career"
         title="Experience"
-        lede="Four roles, from serverless backends to multimodal generation. Employer systems stay private — my own products are on the Work page."
+        lede="Three roles, from serverless backends to multimodal generation. Employer systems stay private — my own products are on the Work page."
         tags={['#AI-Engineering', '#Computer-Vision', '#Backend']}
       />
 

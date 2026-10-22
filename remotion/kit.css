@@ -13,6 +13,16 @@
   inset: 0;
 }
 
+/* A lens: the corners fall off a little, like a real camera. */
+.fk-film::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 66;
+  pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 46%, transparent 58%, rgb(0 0 0 / 34%));
+}
+
 /* ---------- Captions ---------- */
 
 .fk-cap {
@@ -35,7 +45,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0 0.26em;
-  font-size: 74px;
+  font-size: calc(74px * var(--cap-k, 1));
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.035em;
@@ -58,7 +68,7 @@
 
 .fk-cap__sub {
   margin-top: 14px;
-  font-size: 38px;
+  font-size: calc(38px * var(--cap-k, 1));
   font-weight: 500;
   color: rgb(255 255 255 / 78%);
 }
@@ -281,7 +291,8 @@
   z-index: 20;
   width: 620px;
   height: auto;
-  filter: drop-shadow(0 30px 40px rgb(0 0 0 / 45%));
+  /* Closest to the camera, so slightly out of focus. */
+  filter: blur(2.2px) drop-shadow(0 30px 40px rgb(0 0 0 / 45%));
 }
 
 /* ---------- Places ---------- */
@@ -292,6 +303,8 @@
 }
 
 .fk-room--library {
+  /* Wide shots see past the room's edges: keep its walls going. */
+  box-shadow: 0 0 0 900px #2a1f18;
   background:
     radial-gradient(60% 50% at 70% 30%, rgb(255 196 120 / 26%), transparent 70%),
     linear-gradient(#2a1f18, #3b2c21 60%, #2a1f17);
@@ -344,14 +357,29 @@
   position: absolute;
   left: 66%;
   top: 0;
-  width: 160px;
-  height: 120px;
-  border-radius: 0 0 80px 80px;
-  background: #1c140e;
-  box-shadow: 0 60px 160px 40px rgb(255 200 120 / 30%);
+  width: 170px;
+  height: 104px;
+  border-radius: 0 0 85px 85px;
+  /* A brass pendant: lit on one side, glowing from underneath. */
+  background: linear-gradient(90deg, #2a1d12, #6b4a2a 35%, #3a2817 70%, #1c140e);
+  box-shadow:
+    0 -2px 0 #8a6a44 inset,
+    0 70px 170px 50px rgb(255 200 120 / 30%);
+}
+
+.fk-lamp::after {
+  content: '';
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -8px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #fff4d8, #ffc977 60%, transparent);
 }
 
 .fk-room--canteen {
+  box-shadow: 0 0 0 900px #1c2a33;
   background:
     radial-gradient(60% 50% at 40% 20%, rgb(180 220 255 / 22%), transparent 70%),
     linear-gradient(#1c2a33, #26363f 60%, #1b262d);
@@ -403,10 +431,15 @@
   position: absolute;
   left: -40px;
   right: -40px;
-  bottom: -40px;
-  height: 34%;
-  background: linear-gradient(#6a4a32, #4a3222);
-  box-shadow: 0 -3px 0 #8a6448 inset;
+  bottom: -700px;
+  height: calc(34% + 660px);
+  background:
+    radial-gradient(40% 24% at 52% 0%, rgb(255 236 210 / 16%), transparent 70%),
+    repeating-linear-gradient(178deg, rgb(255 255 255 / 0%) 0 22px, rgb(255 255 255 / 3%) 22px 24px, rgb(0 0 0 / 4%) 24px 31px),
+    linear-gradient(#73513a, #4f3524 20%, #3b271a 40%, #2a1b12);
+  box-shadow:
+    0 2px 0 rgb(255 220 180 / 22%) inset,
+    0 -3px 0 #8a6448 inset;
 }
 
 .fk-mug {
@@ -449,20 +482,50 @@
   width: 1100px;
 }
 
+/* The screen's light falling on the desk in front of it. */
+.fk-laptop::before {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -70px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(220 230 255 / 18%), transparent);
+  filter: blur(6px);
+}
+
+/* Aluminium lid edge, black glass bezel. */
 .fk-laptop__lid {
-  padding: 18px 18px 22px;
-  border-radius: 26px 26px 10px 10px;
-  background: #101014;
+  position: relative;
+  padding: 20px 18px 24px;
+  border-radius: 28px 28px 12px 12px;
+  background: linear-gradient(#0d0d11, #08080b);
   box-shadow:
-    0 0 0 2px #2c2c33 inset,
-    0 60px 120px -40px rgb(0 0 0 / 70%);
+    0 0 0 1.5px #050507 inset,
+    0 0 0 3px #9a9aa4,
+    0 0 0 4px #5a5a63,
+    0 70px 120px -40px rgb(0 0 0 / 75%);
+}
+
+/* The camera. */
+.fk-laptop__lid::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #3b4a6b, #0a0a10 70%);
+  transform: translateX(-50%);
 }
 
 .fk-laptop__screen {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #f5f5f7;
 }
 
@@ -514,20 +577,26 @@
   box-shadow: 0 0 0 8px rgb(167 139 250 / 22%), 0 0 40px rgb(167 139 250 / 60%);
 }
 
+/* Glass: one soft diagonal reflection of the room, and the window's warm light. */
 .fk-laptop__glare {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgb(255 255 255 / 7%), transparent 35%);
+  z-index: 20;
   pointer-events: none;
+  background:
+    linear-gradient(112deg, rgb(255 255 255 / 0%) 46%, rgb(255 255 255 / 9%) 46.2%, rgb(255 255 255 / 3%) 62%, rgb(255 255 255 / 0%) 62.2%),
+    radial-gradient(38% 46% at 88% 6%, rgb(255 214 160 / 12%), transparent 70%),
+    linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 22%);
 }
 
+/* The base, seen edge-on: a lit top lip, the opening notch, a contact shadow. */
 .fk-laptop__base {
   position: relative;
-  height: 26px;
-  margin: 0 -6%;
-  border-radius: 3px 3px 26px 26px;
-  background: linear-gradient(#d9d9df, #9d9da8);
-  box-shadow: 0 30px 50px -20px rgb(0 0 0 / 60%);
+  height: 24px;
+  margin: 0 -6.5%;
+  border-radius: 2px 2px 30px 30px / 2px 2px 22px 22px;
+  background: linear-gradient(#f2f2f5 0 2px, #cfcfd6 3px, #a9a9b3 60%, #7d7d88);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 40%) inset;
 }
 
 .fk-laptop__base::before {
@@ -535,11 +604,24 @@
   position: absolute;
   left: 50%;
   top: 0;
-  width: 16%;
-  height: 10px;
-  border-radius: 0 0 12px 12px;
-  background: #b7b7c0;
+  width: 15%;
+  height: 9px;
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(#9c9ca6, #b9b9c2);
   transform: translateX(-50%);
+}
+
+.fk-laptop__base::after {
+  content: '';
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  bottom: -26px;
+  height: 34px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 70%), transparent);
+  filter: blur(4px);
 }
 
 /* ---------- Split screen ---------- */

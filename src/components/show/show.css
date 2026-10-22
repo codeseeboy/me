@@ -22,13 +22,19 @@
 /* Cropped: a soft drop shadow would be cut into a grey box by the crop's edge. */
 .stage__inner--crop .pgs__phone,
 .stage__inner--crop .lvs__phone,
-.stage__inner--crop .uf__phone {
+.stage__inner--crop .uf__phone,
+.stage__inner--crop .hs__phone {
   box-shadow: 0 0 0 2px #2a2a33;
 }
 
 .stage__inner--crop .mds__chat,
 .stage__inner--crop .n8,
-.stage__inner--crop .dk {
+.stage__inner--crop .dk,
+.stage__inner--crop .cw,
+.stage__inner--crop .tl,
+.stage__inner--crop .fl,
+.stage__inner--crop .cc,
+.stage__inner--crop .sq {
   box-shadow: 0 0 0 1px rgb(0 0 0 / 10%);
 }
 
@@ -1398,93 +1404,6 @@
 }
 
 /* ================================================================== */
-/* UAV 3D                                                              */
-/* ================================================================== */
-
-.msh {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 14px;
-  background: radial-gradient(80% 70% at 50% 40%, #151a33, #06070f);
-  color: #e2e8f0;
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 15%),
-    0 40px 80px -30px rgb(0 0 0 / 45%);
-}
-
-.msh__cv {
-  position: absolute;
-  inset: 0;
-}
-
-.msh__top {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  top: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.msh__title {
-  padding: 7px 12px;
-  border-radius: 9px;
-  background: rgb(15 18 35 / 80%);
-  font-size: 12px;
-  color: #a5b4fc;
-  box-shadow: 0 0 0 1px rgb(165 180 252 / 20%) inset;
-}
-
-.msh__title b {
-  margin-left: 6px;
-  color: #fff;
-}
-
-.msh__tools {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 10px;
-  background: rgb(15 18 35 / 80%);
-}
-
-.msh__tools i {
-  padding: 5px 10px;
-  border-radius: 7px;
-  font-size: 11.5px;
-  font-style: normal;
-  color: #94a3b8;
-}
-
-.msh__tools i.is-on {
-  background: #4338ca;
-  color: #fff;
-}
-
-.msh__foot {
-  position: absolute;
-  left: 16px;
-  bottom: 14px;
-  display: flex;
-  gap: 8px;
-}
-
-.msh__foot span {
-  padding: 7px 11px;
-  border-radius: 9px;
-  background: rgb(15 18 35 / 80%);
-  font-size: 11.5px;
-  color: #94a3b8;
-}
-
-.msh__foot b {
-  color: #fff;
-}
-
-/* ================================================================== */
 /* UrbanFix AI                                                         */
 /* ================================================================== */
 
@@ -1763,4 +1682,125 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* ================================================================== */
+/* Device realism: titanium phone bands, aluminium laptop lids, and    */
+/* cover glass that catches one soft reflection — on every mockup.     */
+/* ================================================================== */
+
+.stage__inner :is(.pgs__phone, .lvs__phone, .uf__phone, .hs__phone) {
+  isolation: isolate;
+  background: linear-gradient(145deg, #8b8b95, #3b3b43 12%, #141418 38%, #0b0b0e 72%, #46464f);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 20%) inset,
+    0 0 0 3px #050506 inset,
+    0 40px 70px -24px rgb(0 0 0 / 50%),
+    0 12px 24px -12px rgb(0 0 0 / 35%);
+}
+
+/* Side buttons: one gradient draws the left pair and the right one. */
+.stage__inner :is(.pgs__phone, .lvs__phone, .uf__phone, .hs__phone)::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 104px;
+  height: 64px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #55555e 0 3px, transparent 3px calc(100% - 3px), #55555e calc(100% - 3px));
+  pointer-events: none;
+}
+
+/* Cover glass over the whole screen, above everything on it. */
+.stage__inner :is(.pgs__phone, .lvs__phone, .uf__phone, .hs__phone)::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  z-index: 30;
+  border-radius: 32px;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0%) 44%, rgb(255 255 255 / 6%) 44.3%, rgb(255 255 255 / 0%) 58%),
+    linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 14%);
+}
+
+.stage__inner :is(.uf__phone, .hs__phone)::after {
+  border-radius: 34px;
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0%) 44%, rgb(255 255 255 / 20%) 44.3%, rgb(255 255 255 / 0%) 58%),
+    linear-gradient(180deg, rgb(255 255 255 / 10%), transparent 14%);
+}
+
+.stage__inner.stage__inner--crop :is(.pgs__phone, .lvs__phone, .uf__phone, .hs__phone) {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 20%) inset,
+    0 0 0 3px #050506 inset,
+    0 0 0 1px #2a2a33;
+}
+
+/* Laptops: black glass bezel inside an aluminium edge, a camera, a lit lip. */
+.stage__inner :is(.pgs__lid, .lvs__lid) {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(#111116, #0a0a0d);
+  box-shadow:
+    0 0 0 1px #050507 inset,
+    0 0 0 2px #a3a3ad,
+    0 0 0 3px #66666f,
+    0 30px 60px -30px rgb(0 0 0 / 55%);
+}
+
+.stage__inner :is(.pgs__lid, .lvs__lid)::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #44557a, #0a0a10 70%);
+  transform: translateX(-50%);
+}
+
+.stage__inner :is(.pgs__lid, .lvs__lid)::after {
+  content: '';
+  position: absolute;
+  inset: 12px 12px 14px;
+  z-index: 30;
+  border-radius: 6px;
+  pointer-events: none;
+  background:
+    linear-gradient(112deg, rgb(255 255 255 / 0%) 52%, rgb(255 255 255 / 16%) 52.2%, rgb(255 255 255 / 5%) 68%, rgb(255 255 255 / 0%) 68.2%),
+    linear-gradient(180deg, rgb(255 255 255 / 6%), transparent 20%);
+}
+
+.stage__inner :is(.pgs__base, .lvs__base) {
+  position: relative;
+  border-radius: 1px 1px 16px 16px / 1px 1px 12px 12px;
+  background: linear-gradient(#f4f4f7 0 1px, #d6d6dd 2px, #b3b3bd 65%, #8c8c97);
+}
+
+.stage__inner :is(.pgs__base, .lvs__base)::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 15%;
+  height: 5px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(#a3a3ad, #c3c3cb);
+  transform: translateX(-50%);
+}
+
+.stage__inner :is(.pgs__base, .lvs__base)::after {
+  content: '';
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  bottom: -12px;
+  height: 16px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 28%), transparent);
 }

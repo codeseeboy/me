@@ -628,10 +628,38 @@
   aspect-ratio: 9 / 19.5;
   padding: 13px;
   border-radius: 62px;
-  background: linear-gradient(150deg, #3a3a44, #0c0c10 45%, #26262e);
+  /* Titanium band: light catches the top-left edge, the rest falls off. */
+  background: linear-gradient(145deg, #8a8a94, #3a3a42 14%, #141418 40%, #0b0b0e 70%, #44444d);
   box-shadow:
-    0 0 0 2px rgb(255 255 255 / 10%) inset,
-    0 60px 120px -40px rgb(0 0 0 / 80%);
+    0 0 0 1.5px rgb(255 255 255 / 22%) inset,
+    0 0 0 4px #050506 inset,
+    0 2px 0 rgb(255 255 255 / 10%),
+    0 60px 120px -40px rgb(0 0 0 / 80%),
+    0 18px 40px -18px rgb(0 0 0 / 60%);
+}
+
+/* Side buttons: action + volume on the left, power on the right. */
+.ps-phone::before,
+.ps-phone::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #2a2a30, #6c6c76);
+}
+
+.ps-phone::before {
+  left: -3px;
+  top: 150px;
+  height: 120px;
+  box-shadow: 0 -52px 0 -6px #4a4a52;
+}
+
+.ps-phone::after {
+  right: -3px;
+  top: 200px;
+  height: 92px;
+  background: linear-gradient(90deg, #6c6c76, #2a2a30);
 }
 
 .ps-phone__screen {
@@ -642,6 +670,20 @@
   background: #08080f;
   color: #f0f0f5;
   font-family: 'Inter', sans-serif;
+}
+
+/* Cover glass: a soft reflection across the top, above everything on screen. */
+.ps-phone__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 0%) 42%, rgb(255 255 255 / 6%) 42.3%, rgb(255 255 255 / 0%) 58%),
+    linear-gradient(180deg, rgb(255 255 255 / 6%), transparent 18%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 6%) inset;
 }
 
 .ps-phone__status {

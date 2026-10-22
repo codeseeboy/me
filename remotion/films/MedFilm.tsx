@@ -32,8 +32,9 @@ import {
 
 export const MED_SECONDS = 58
 
-const K = 1.0 // desktop (1600×900) drawn 1:1, centred, captions below it
-const DX = 160
+const K = 0.9 // desktop (1600×900) at 1440×810, centred, with room for captions below it
+const DX = 240
+const DY = 45
 
 const CAPTIONS: CapLine[] = [
   [0.4, 3.3, '11:40 PM. One failing test.', 'Your AI chat is open in the next window.'],
@@ -380,7 +381,7 @@ export function MedFilm({ clean = false }: { clean?: boolean }) {
 
   /* Act 1 framing: a dark room, then into the monitor. */
   const push = tw(t, 3.4, 4.3)
-  const roomScale = lerp(1, 1600 / 1092, push)
+  const roomScale = lerp(1, (1600 * K) / 1092, push)
   const freeze = tw(t, 18.6, 19.2)
 
   /* Act 4 framing: into Mediator's panel for the approval. */
@@ -397,7 +398,7 @@ export function MedFilm({ clean = false }: { clean?: boolean }) {
   const ed = handsEditor(t)
   const le = loopEditor(t)
 
-  const D = (x: number, y: number): [number, number] => [DX + x * K, y * K]
+  const D = (x: number, y: number): [number, number] => [DX + x * K, DY + y * K]
 
   return (
     <div className="fk-film med" style={{ background: '#07090d' }}>
@@ -431,7 +432,7 @@ export function MedFilm({ clean = false }: { clean?: boolean }) {
               </div>
             </div>
           ) : (
-            <div className="fk-layer" style={{ transformOrigin: '0 0', transform: `translate(${DX}px, 0) scale(${K})` }}>
+            <div className="fk-layer" style={{ transformOrigin: '0 0', transform: `translate(${DX}px, ${DY}px) scale(${K})` }}>
               <Desktop>
                 <LoopChat t={t} />
                 <Editor lines={le.lines} focus={le.focus} />
@@ -514,7 +515,7 @@ export function MedFilm({ clean = false }: { clean?: boolean }) {
 
       {/* ---- Act 2: the mark ---- */}
       {t >= 21.0 && t < 25.8 && (
-        <div className="fk-layer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: env(t, 21.0, 25.8, 0.4), background: 'radial-gradient(50% 50% at 50% 45%, #0f2a1c, #07090d 70%)' }}>
+        <div className="fk-layer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: env(t, 21.0, 25.4, 0.4), background: 'radial-gradient(50% 50% at 50% 45%, #0f2a1c, #07090d 70%)' }}>
           <MarkDraw p={tw(t, 21.5, 22.7, (x) => x)} d={tw(t, 22.5, 22.9)} />
           <p style={{ marginTop: 30, fontSize: 128, fontWeight: 800, letterSpacing: '-0.055em', color: '#fff', opacity: tw(t, 22.6, 23.2), transform: `translateY(${(1 - tw(t, 22.6, 23.3)) * 30}px)` }}>Mediator</p>
           <p style={{ marginTop: 18, fontSize: 52, fontWeight: 650, letterSpacing: '-0.02em', color: '#4ade80', opacity: tw(t, 23.3, 23.9) }}>What if your AI could run it itself?</p>
@@ -524,7 +525,7 @@ export function MedFilm({ clean = false }: { clean?: boolean }) {
 
       {/* ---- Acts 3 & 4: with Mediator ---- */}
       {t >= 25.2 && t < 50.4 && (
-        <div className="fk-layer" style={{ opacity: tw(t, 25.2, 25.8) * (1 - tw(t, 49.8, 50.4)) }}>
+        <div className="fk-layer" style={{ opacity: tw(t, 25.4, 25.9) * (1 - tw(t, 49.8, 50.4)) }}>
           <div className="fk-layer" style={{ transformOrigin: '0 0', transform: `translate(${camX}px, ${camY}px) scale(${zs})` }}>
             <Desktop>
               <HandsChat t={t} />

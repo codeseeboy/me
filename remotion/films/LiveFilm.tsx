@@ -357,7 +357,7 @@ export function LiveFilm({ clean = false }: { clean?: boolean }) {
       </Callout>
 
       {!clean && <Chapter t={t} items={CHAPTERS} />}
-      {!clean && <Caption t={t} lines={LINES} />}
+      {!clean && <Caption t={t} lines={LINES} box={{ left: L.x, right: W - L.x - L.w, bottom: H - L.y - L.h, r: 34 }} />}
       {t >= 31.8 && <EndCard t={t} at={32.3} mark={<PgMark />} name="Live Desktop & Control" line="Your laptop, in your pocket." sub="Part of Privacy Guardian · Windows + Android" />}
       <div className="fk-flash" style={{ zIndex: 70, background: '#000', opacity: Math.max(1 - tw(t, 0, 0.5), tw(t, 35.3, 36)) }} />
     </div>
