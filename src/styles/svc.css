@@ -234,6 +234,22 @@
 .svc-door__show {
   position: relative;
   aspect-ratio: 880 / 560;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  /* The same white studio as the product pages: top light, a glossy floor. */
+  background:
+    radial-gradient(60% 50% at 50% 28%, #fff, rgb(255 255 255 / 0%) 72%),
+    linear-gradient(180deg, #f8f8fa 0%, #f2f2f5 58%, #eaeaef 100%);
+}
+
+.svc-door__show .stage__inner {
+  top: 46%;
+  -webkit-box-reflect: below 4px linear-gradient(transparent 78%, rgb(0 0 0 / 12%));
+}
+
+.svc-door__show .stage__inner--crop {
+  top: 50%;
+  -webkit-box-reflect: none;
 }
 
 .svc-door--live {

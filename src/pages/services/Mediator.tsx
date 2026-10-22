@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
-import { MetaBand, Row, Visual } from '../../components/Story'
+import { MetaBand } from '../../components/Story'
 import { MediatorShow } from '../../components/show/Showcase'
-import { HowItWorks, NextProduct, ProductCover, ProductCta, ProductFaq, Setup } from '../../components/svc/ProductPage'
+import { Features, HowItWorks, Moments, NextProduct, ProductCover, ProductCta, ProductFaq, Setup } from '../../components/svc/ProductPage'
+import { McpConfig, NotDoneYet, PolicyLog } from '../../components/svc/Scenes'
 import type { ScrollyStep } from '../../components/svc/Scrolly'
 
 /*
@@ -71,43 +72,6 @@ const SETUP = [
   { h: 'Ask for the work', p: 'Describe the bug or the feature. Watch it run, and approve anything risky.' },
 ]
 
-const LOOP = [
-  { t: 'Ask the AI', you: false },
-  { t: 'Copy its code', you: true },
-  { t: 'Paste it', you: true },
-  { t: 'Run it', you: true },
-  { t: 'Copy the error', you: true },
-  { t: 'Wait', you: false },
-]
-
-/** The manual loop: six steps around a circle, four of them yours. */
-function LoopPicture() {
-  return (
-    <div className="pp-loop" role="img" aria-label="The manual loop: ask, copy, paste, run, copy the error back, wait — four of six steps are you.">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="40" />
-        <circle className="pp-loop__arc" cx="50" cy="50" r="40" />
-      </svg>
-      {LOOP.map((n, i) => {
-        const a = (i / LOOP.length) * Math.PI * 2 - Math.PI / 2
-        return (
-          <span
-            key={n.t}
-            className={`pp-loop__node${n.you ? ' is-you' : ''}`}
-            style={{ left: `${50 + Math.cos(a) * 40}%`, top: `${50 + Math.sin(a) * 40}%` }}
-          >
-            {n.t}
-          </span>
-        )
-      })}
-      <span className="pp-loop__core">
-        <b>4 of 6</b>
-        steps are you
-      </span>
-    </div>
-  )
-}
-
 const FAQ = [
   {
     q: 'Do I need to pay for an API?',
@@ -131,6 +95,7 @@ export default function Mediator() {
   return (
     <article className="case-page product-page" style={{ '--accent': '#15803d' } as CSSProperties}>
       <ProductCover
+        label="Product 02"
         brand="Mediator"
         title={['Your AI Chat,', 'Now an Agent']}
         what="ChatGPT, Claude, Gemini — in the tab you already have open. Mediator lets it read your files, run your tests and fix what fails, on your machine, under rules you set. No API key."
@@ -153,85 +118,61 @@ export default function Mediator() {
         </p>
       </MetaBand>
 
-      <div className="rows">
-        <Row kicker="The problem" aside={<LoopPicture />}>
-          <p>
-            The AI does the thinking. Then you copy its code into your editor, run the command, copy the error back and
-            wait for it to try again — for every bug, until well past midnight.
-          </p>
-        </Row>
-      </div>
+      <Moments
+        kicker="The problem"
+        title={['Four of six steps', 'are you.']}
+        lead="The AI does the thinking. You carry text between two windows — for every bug, until well past midnight."
+        items={[
+          { a: 'Ask the AI', b: 'the AI' },
+          { a: 'Copy its code', b: 'you', hot: true },
+          { a: 'Paste it into your editor', b: 'you', hot: true },
+          { a: 'Run the tests', b: 'you', hot: true },
+          { a: 'Copy the error back', b: 'you', hot: true },
+          { a: 'Wait for the next try', b: 'the AI' },
+        ]}
+      />
 
       <HowItWorks title="Hands off the clipboard." steps={HOW} crop={[0, 0, 540, 560]} render={(step) => <MediatorShow step={step} />} />
 
       <Setup title="Three steps to hands-free." steps={SETUP} />
 
-      <div className="rows">
-        <Row
-          kicker="You stay in charge"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'pytest tests', v: 'runs' },
-                  { k: 'pip install', v: 'asks you first' },
-                  { k: 'git push --force', v: 'asks you first' },
-                  { k: 'rm -rf /', v: 'blocked outright' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            Every command passes the same policy. A path outside the project you opened is refused, every change is
-            checkpointed for undo, and text in a file that looks like instructions is labelled as data before the AI reads
-            it.
-          </p>
-        </Row>
-
-        <Row
-          kicker="Done has to be true"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'Code changed', v: '1 edit' },
-                  { k: 'Since the last run', v: 'unverified' },
-                  { k: 'Task complete', v: 'refused' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            The AI cannot just say it is finished. Mediator checks the record first — were files changed, has anything run
-            since, did it pass — and refuses with a specific list when it is not.
-          </p>
-        </Row>
-
-        <Row
-          kicker="Under the hood"
-          aside={
-            <Visual
-              v={{
-                kind: 'metrics',
-                items: [
-                  { k: '47', v: 'tools' },
-                  { k: '800+', v: 'tests' },
-                  { k: '0', v: 'API keys' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            Files, search, terminals, tests, git and checkpoints — one safety pipeline for all of them. It also works as an
-            MCP server for Claude Desktop, Cursor and Cline.
-          </p>
-        </Row>
-      </div>
+      <Features
+        items={[
+          {
+            kicker: 'You stay in charge',
+            title: ['One policy for', 'every command.'],
+            text: 'Every tool call passes the same rules. Safe work just runs, risky work waits for you, catastrophic commands never run, and a path outside the project you opened is refused. Each change is checkpointed for undo.',
+            facts: [
+              { k: 'pytest tests', v: 'runs' },
+              { k: 'pip install · git push --force', v: 'asks you first' },
+              { k: 'rm -rf /', v: 'blocked outright' },
+            ],
+            scene: <PolicyLog />,
+          },
+          {
+            kicker: 'Done has to be true',
+            title: ['It can’t just', 'say it’s done.'],
+            text: 'Before a task is recorded as finished, Mediator checks the record: were files changed, has anything run since, did it pass. If not, it refuses — with the exact reason and what to do next.',
+            facts: [
+              { k: 'Edited, never run', v: 'refused' },
+              { k: 'Changed after the last run', v: 'refused' },
+              { k: 'Tests green on the new code', v: 'done' },
+            ],
+            scene: <NotDoneYet />,
+          },
+          {
+            kicker: 'Under the hood',
+            title: ['Also an MCP server', 'for your editor.'],
+            text: 'Files, search, terminals, tests, git and checkpoints — one safety pipeline for all of them. Point Claude Desktop, Cursor or Cline at it and they get the same tools under the same rules.',
+            facts: [
+              { k: 'Tools', v: '47' },
+              { k: 'Tests', v: '800+' },
+              { k: 'API keys', v: 'none' },
+            ],
+            scene: <McpConfig />,
+          },
+        ]}
+      />
 
       <ProductFaq items={FAQ} />
 

@@ -6,6 +6,7 @@ import useSeen from '../../hooks/useSeen'
 import SplitText from '../SplitText'
 import { ArrowRight } from '../Icons'
 import Showcase, { type ShowKind } from '../show/Showcase'
+import { Frame } from '../CaseStack'
 import Scrolly, { type ScrollyStep } from './Scrolly'
 import { FilmPlayer, type Chapter } from './Film'
 import RequestAccess from './RequestAccess'
@@ -65,8 +66,14 @@ function FilmButton({ film }: { film: Film }) {
   )
 }
 
-/** The cover: the product running on the left, what it is on the right. */
+/** A white photo studio: soft top light, and a glossy floor that reflects what stands on it. */
+export function Studio({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return <div className={`pp-studio ${className}`.trim()}>{children}</div>
+}
+
+/** The cover, framed like a gallery panel: the product running on the left, what it is on the right. */
 export function ProductCover({
+  label,
   brand,
   title,
   what,
@@ -75,6 +82,7 @@ export function ProductCover({
   product,
   film,
 }: {
+  label: string
   brand: string
   title: [string, string]
   what: string
@@ -85,40 +93,129 @@ export function ProductCover({
 }) {
   const [ref, seen] = useSeen<HTMLElement>(0.05, 400)
   return (
-    <section ref={ref} className={`case-hero pp-cover${seen ? ' is-seen' : ''}`} data-layout="split">
-      <div className="case-cover">
-        <div className="case-cover__content">
-          <span className="case-brand" style={{ ['--k' as string]: 0 }}>
-            {brand}
-          </span>
-          <div className="no-hinge">
-            <h1 className="case-title case-title--editorial">
-              <span className="case-title-line">
-                <SplitText text={title[0]} />
-              </span>{' '}
-              <span className="case-title-line case-title-line--italic">
-                <SplitText text={title[1]} offset={title[0].length} />
-              </span>
-            </h1>
-          </div>
-          <p className="case-what" style={{ ['--k' as string]: 2 }}>
-            {what}
-          </p>
-          <p className="case-tags" style={{ ['--k' as string]: 3 }}>
-            {tags.map((t) => (
-              <span key={t}>{t}</span>
-            ))}
-          </p>
-          <div className="pp-actions" style={{ ['--k' as string]: 4 }}>
-            <RequestAccess product={product} tone="pill" />
-            {film && <FilmButton film={film} />}
+    <section ref={ref} className={`panel pp-cover${seen ? ' is-seen' : ''}`}>
+      <Frame label={label}>
+        <div className="pp-cover__grid">
+          <Studio className="pp-cover__studio case-media">
+            <Showcase kind={kind} live={seen} />
+          </Studio>
+          <div className="case-cover__content pp-cover__content">
+            <span className="case-brand" style={{ ['--k' as string]: 0 }}>
+              {brand}
+            </span>
+            <div className="no-hinge">
+              <h1 className="case-title case-title--editorial">
+                <span className="case-title-line">
+                  <SplitText text={title[0]} />
+                </span>{' '}
+                <span className="case-title-line case-title-line--italic">
+                  <SplitText text={title[1]} offset={title[0].length} />
+                </span>
+              </h1>
+            </div>
+            <p className="case-what" style={{ ['--k' as string]: 2 }}>
+              {what}
+            </p>
+            <p className="case-tags" style={{ ['--k' as string]: 3 }}>
+              {tags.map((t) => (
+                <span key={t}>{t}</span>
+              ))}
+            </p>
+            <div className="pp-actions" style={{ ['--k' as string]: 4 }}>
+              <RequestAccess product={product} tone="pill" />
+              {film && <FilmButton film={film} />}
+            </div>
           </div>
         </div>
-        <div className="case-media" aria-hidden="true">
-          <Showcase kind={kind} live={seen} />
-        </div>
-      </div>
+      </Frame>
     </section>
+  )
+}
+
+export interface Moment {
+  a: string
+  b: string
+  /** Set in red: the part that is the reader's own burden or gain. */
+  hot?: boolean
+}
+
+/** One idea told in big editorial lines: a numbered list set like a contents page. */
+export function Moments({ kicker, title, lead, items }: { kicker: string; title: [string, string]; lead?: string; items: Moment[] }) {
+  const [ref, seen] = useSeen<HTMLElement>(0.15)
+  return (
+    <section ref={ref} className={`pp-moments${seen ? ' is-seen' : ''}`}>
+      <header className="pp-moments__head">
+        <span className="pp-kicker">{kicker}</span>
+        <h2 className="pp-h2">
+          {title[0]} <em>{title[1]}</em>
+        </h2>
+        {lead && <p className="pp-moments__lead">{lead}</p>}
+      </header>
+      <ol className="pp-moments__list">
+        {items.map((m, i) => (
+          <li key={m.a} style={{ ['--k' as string]: i }}>
+            <span className="pp-moments__n">{String(i + 1).padStart(2, '0')}</span>
+            <span className="pp-moments__a">{m.a}</span>
+            <span className={`pp-moments__b${m.hot ? ' is-hot' : ''}`}>{m.b}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+export interface Feature {
+  kicker: string
+  title: [string, string]
+  text: string
+  facts?: { k: string; v: string }[]
+  scene: ReactNode
+  link?: { to: string; label: string }
+}
+
+/** One feature per framed panel; on a tall screen the panels stack like the gallery. */
+function FeaturePanel({ f, i }: { f: Feature; i: number }) {
+  const [ref, seen] = useSeen<HTMLElement>(0.2)
+  return (
+    <section ref={ref} className={`panel panel--stick pp-feature${seen ? ' is-seen' : ''}`}>
+      <Frame label={`Feature ${String(i + 1).padStart(2, '0')}`}>
+        <div className="pp-feature__grid">
+          <div className="pp-feature__text">
+            <span className="pp-kicker">{f.kicker}</span>
+            <h3 className="pp-feature__h">
+              {f.title[0]} <em>{f.title[1]}</em>
+            </h3>
+            <p className="pp-feature__p">{f.text}</p>
+            {f.facts && (
+              <dl className="pp-feature__facts">
+                {f.facts.map((x) => (
+                  <div key={x.k}>
+                    <dt>{x.k}</dt>
+                    <dd>{x.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {f.link && (
+              <Link className="pill" to={f.link.to}>
+                {f.link.label} <ArrowRight />
+              </Link>
+            )}
+          </div>
+          <Studio className="pp-feature__scene">{f.scene}</Studio>
+        </div>
+      </Frame>
+    </section>
+  )
+}
+
+export function Features({ items }: { items: Feature[] }) {
+  return (
+    <div className="panels pp-features">
+      {items.map((f, i) => (
+        <FeaturePanel key={f.kicker} f={f} i={i} />
+      ))}
+    </div>
   )
 }
 
