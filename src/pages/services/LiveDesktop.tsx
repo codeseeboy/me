@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
-import { MetaBand, Row, Visual } from '../../components/Story'
+import { MetaBand } from '../../components/Story'
 import { LiveShow } from '../../components/show/Showcase'
-import { HowItWorks, NextProduct, ProductCover, ProductCta, Setup } from '../../components/svc/ProductPage'
+import { Features, HowItWorks, Moments, NextProduct, ProductCover, ProductCta, Setup } from '../../components/svc/ProductPage'
+import { HonestSheet, RelayPath } from '../../components/svc/Scenes'
 import type { ScrollyStep } from '../../components/svc/Scrolly'
 
 /*
@@ -72,6 +73,7 @@ export default function LiveDesktop() {
   return (
     <article className="case-page product-page" style={{ '--accent': '#6d4aff' } as CSSProperties}>
       <ProductCover
+        label="Product 01 · Live Desktop"
         brand="Live Desktop & Control"
         title={['Your Laptop,', 'In Your Pocket']}
         what="Left it on in the library? See the laptop’s real screen on your phone, then tap, type and close things — as if you never left the desk."
@@ -94,6 +96,20 @@ export default function LiveDesktop() {
         </p>
       </MetaBand>
 
+      <Moments
+        kicker="Every gesture, mapped"
+        title={['Nothing new', 'to learn.']}
+        lead="Each touch becomes the click, scroll or keystroke you would have made at the desk."
+        items={[
+          { a: 'Tap', b: 'left click' },
+          { a: 'Double-tap', b: 'right click' },
+          { a: 'Drag', b: 'move the pointer' },
+          { a: 'Hold, then drag', b: 'scroll' },
+          { a: 'Pinch', b: 'zoom 0.5× – 3×' },
+          { a: 'Keyboard', b: 'type on the laptop' },
+        ]}
+      />
+
       <HowItWorks title="The form was due at 5. You were on the bus." steps={STORY} crop={[606, 0, 274, 560]} render={(step) => <LiveShow step={step} />} />
 
       <Setup
@@ -105,50 +121,30 @@ export default function LiveDesktop() {
         ]}
       />
 
-      <div className="rows">
-        <Row
-          kicker="Every gesture, mapped"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'Tap', v: 'left click' },
-                  { k: 'Double-tap', v: 'right click' },
-                  { k: 'Drag', v: 'move the pointer' },
-                  { k: 'Hold, then drag', v: 'scroll' },
-                  { k: 'Pinch', v: 'zoom 0.5× – 3×' },
-                  { k: 'Keyboard', v: 'type on the laptop' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>Nothing new to learn. Each touch becomes the click, scroll or keystroke you would have made at the desk.</p>
-        </Row>
-
-        <Row
-          kicker="Honest about what it sees"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'No fake picture', v: 'it says when it can’t see' },
-                  { k: 'Light on data', v: 'unchanged frames aren’t resent' },
-                  { k: 'In the title bar', v: 'resolution · frame rate · latency' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            A Windows service can only see a blank, invisible desktop, so the picture comes from a helper inside your
-            signed-in session. If that helper is not running, your phone says so in plain words instead of showing a black
-            screen.
-          </p>
-        </Row>
-      </div>
+      <Features
+        items={[
+          {
+            kicker: 'Honest about what it sees',
+            title: ['No picture beats', 'a wrong one.'],
+            text: 'A Windows service only sees a blank, invisible desktop, so the picture comes from a helper inside your signed-in session. If that helper is not running, your phone says so in plain words instead of showing a black screen.',
+            facts: [
+              { k: 'In the title bar', v: 'resolution · frame rate · latency' },
+              { k: 'Unchanged frames', v: 'not sent again' },
+            ],
+            scene: <HonestSheet />,
+          },
+          {
+            kicker: 'Same pairing, same lock',
+            title: ['Only your phone', 'gets in.'],
+            text: 'Live Desktop rides the connection you paired for Privacy Guardian. Phone and laptop both dial out to an always-on relay, end-to-end encrypted — the relay only ever carries ciphertext.',
+            facts: [
+              { k: 'Who can connect', v: 'your paired phone' },
+              { k: 'What the relay sees', v: 'ciphertext' },
+            ],
+            scene: <RelayPath />,
+          },
+        ]}
+      />
 
       <ProductCta
         title="Leave the laptop. Keep the control."

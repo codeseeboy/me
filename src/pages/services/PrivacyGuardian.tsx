@@ -1,9 +1,8 @@
 import type { CSSProperties } from 'react'
-import { Link } from '../../router'
-import { MetaBand, Row, Visual } from '../../components/Story'
-import { ArrowRight } from '../../components/Icons'
+import { MetaBand } from '../../components/Story'
 import { Guardian } from '../../components/show/Showcase'
-import { HowItWorks, NextProduct, ProductCover, ProductCta, ProductFaq, Setup } from '../../components/svc/ProductPage'
+import { Features, HowItWorks, Moments, NextProduct, ProductCover, ProductCta, ProductFaq, Setup } from '../../components/svc/ProductPage'
+import { BuiltToHold, EveryWayIn, LivePoster } from '../../components/svc/Scenes'
 import type { ScrollyStep } from '../../components/svc/Scrolly'
 
 /*
@@ -92,6 +91,7 @@ export default function PrivacyGuardian() {
   return (
     <article className="case-page product-page" style={{ '--accent': '#6d4aff' } as CSSProperties}>
       <ProductCover
+        label="Product 01"
         brand="Privacy Guardian"
         title={['Lock It From', 'Your Phone']}
         what="Lend your laptop without lending your private stuff. Lock the websites, apps, folders and Chrome profiles you choose — and unlock one of them with your fingerprint, from anywhere."
@@ -114,98 +114,56 @@ export default function PrivacyGuardian() {
         </p>
       </MetaBand>
 
-      <div className="rows">
-        <Row
-          kicker="When you’d use it"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'Lending it to a friend', v: 'they get YouTube, not your chats' },
-                  { k: 'Leaving it in the library', v: 'lock it from the bus' },
-                  { k: 'Presenting in class', v: 'your mail stays shut' },
-                  { k: 'Family on your laptop', v: 'your folders stay yours' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>Any time your laptop is open and you are not the one using it. You keep the laptop usable — and keep your private things private.</p>
-        </Row>
-      </div>
+      <Moments
+        kicker="When you’d use it"
+        title={['Whenever someone', 'else is at it.']}
+        lead="You keep the laptop usable for them — and keep your private things private."
+        items={[
+          { a: 'Lending it to a friend', b: 'they get YouTube, not your chats' },
+          { a: 'Leaving it in the library', b: 'lock it from the bus' },
+          { a: 'Presenting in class', b: 'your mail stays shut' },
+          { a: 'Family on your laptop', b: 'your folders stay yours' },
+        ]}
+      />
 
       <HowItWorks title="Lend the laptop. Keep your life." steps={HOW} crop={[606, 0, 274, 560]} render={(step) => <Guardian step={step} />} />
 
       <Setup title="Three steps, once." steps={SETUP} />
 
-      <div className="rows">
-        <Row
-          kicker="What it locks"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'Websites', v: 'even Incognito or a new profile' },
-                  { k: 'Apps', v: 'blocked by Windows itself' },
-                  { k: 'Files & folders', v: '“Access is denied.”' },
-                  { k: 'Chrome profiles', v: 'the whole profile, on disk' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            Four kinds of thing, one rule: the lock is on the thing, not the route to it. Typed, bookmarked, from the Start
-            menu, a shortcut or a terminal — the same lock answers every time.
-          </p>
-        </Row>
-
-        <Row
-          kicker="Built to hold"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'Close the app', v: 'still locked' },
-                  { k: 'Tamper with it', v: 'it seals' },
-                  { k: 'Phone off', v: 'locks hold' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>
-            Locks live in the registry and the filesystem, where Windows enforces them, so stopping Privacy Guardian unlocks
-            nothing. If its settings ever fail their integrity check, it seals everything until it is repaired.
-          </p>
-        </Row>
-
-        <Row
-          kicker="Live Desktop & Control"
-          aside={
-            <Visual
-              v={{
-                kind: 'list',
-                items: [
-                  { k: 'See', v: 'the laptop’s real screen' },
-                  { k: 'Tap & type', v: 'it happens on the laptop' },
-                  { k: 'What is open', v: 'close or lock any app' },
-                ],
-              }}
-            />
-          }
-        >
-          <p>Left the laptop in the library? See its screen from your phone, then tap, type and close what you left open.</p>
-          <div className="pills">
-            <Link className="pill" to="/services/privacy-guardian/live">
-              Explore Live Desktop <ArrowRight />
-            </Link>
-          </div>
-        </Row>
-      </div>
+      <Features
+        items={[
+          {
+            kicker: 'What it locks',
+            title: ['Every way in hits', 'the same lock.'],
+            text: 'The lock is on the thing, not the route to it. Typed, bookmarked, Incognito, the Start menu, a shortcut or a terminal — the same lock answers every time.',
+            facts: [
+              { k: 'Websites', v: 'Chrome & Edge, even Incognito' },
+              { k: 'Apps', v: 'stopped by Windows before they start' },
+              { k: 'Files & folders', v: 'Access is denied' },
+              { k: 'Chrome profiles', v: 'the whole profile, on disk' },
+            ],
+            scene: <EveryWayIn />,
+          },
+          {
+            kicker: 'Built to hold',
+            title: ['Stop the app.', 'The lock stays.'],
+            text: 'Locks live in the registry and the filesystem, where Windows enforces them — so stopping Privacy Guardian unlocks nothing. If its settings ever fail their integrity check, it seals everything until it is repaired.',
+            facts: [
+              { k: 'Service stopped', v: 'still locked' },
+              { k: 'Settings tampered with', v: 'it seals' },
+              { k: 'Phone off', v: 'locks hold' },
+            ],
+            scene: <BuiltToHold />,
+          },
+          {
+            kicker: 'Live Desktop & Control',
+            title: ['Left it open?', 'Use it from your phone.'],
+            text: 'See the laptop’s real screen on your phone, then tap, type and close what you left open — from the bus, the canteen, anywhere.',
+            scene: <LivePoster />,
+            link: { to: '/services/privacy-guardian/live', label: 'Explore Live Desktop' },
+          },
+        ]}
+      />
 
       <ProductFaq items={FAQ} />
 
