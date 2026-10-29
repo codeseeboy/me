@@ -1,5 +1,7 @@
 # Shashikant Rajput — portfolio
 
+Source of my portfolio, live at [ezz-shashiii.vercel.app](https://ezz-shashiii.vercel.app). React, Vite and TypeScript.
+
 Four pages, each built from the same sticky framed panel. Detail lives in the deep-dive
 overlay, never on the panel itself — the panels stay sparse on purpose.
 
